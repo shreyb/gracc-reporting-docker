@@ -6,9 +6,12 @@
 # Valid VOS="NOvA SeaQuest MINERvA MINOS gm2 Mu2e UBooNe DarkSide DUNE CDMS MARS CDF"
 
 
+VERSIONRELEASE=0.5-1
 TOPDIR=$HOME/fife-reports-docker
 LOCALLOGDIR=$TOPDIR/log
 SCRIPTLOGFILE=$LOCALLOGDIR/efficiencyreport_run.log     # Ideally should be in /var/log/gracc-reporting
+MYUID=`id -u`
+MYGID=`id -g`
 
 function usage {
     echo "Usage:    ./efficiencyreport_run.sh <time period> <VO>"
@@ -42,11 +45,21 @@ endtime=`date +"%F %T"`
 vo=$2
 set_dates $1
 
+# Check to see if logdir exists.  Create it if it doesn't
+if [ ! -d "$LOCALLOGDIR" ]; then
+	mkdir -p $LOCALLOGDIR
+fi
 
 # Run the report container
 echo "START" `date` >> $SCRIPTLOGFILE
 
-docker run -e VO=$vo -e START="$starttime" -e END="$endtime" -v $LOCALLOGDIR:/var/log -d shreyb/gracc-reporting:efficiency-report_0.5-1
+docker run -e VO=$vo \
+	-e START="$starttime" \
+	-e END="$endtime" \
+	-e MYGID=$MYGID \
+	-e MYUID=$MYUID \
+	-v $LOCALLOGDIR:/var/log \
+	-d shreyb/gracc-reporting:efficiency-report_$VERSIONRELEASE
 
 # Error handling
 if [ $? -ne 0 ]
