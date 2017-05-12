@@ -10,8 +10,8 @@ RUN yum -y update
 RUN yum -y install python-pip && pip install -U pip
 
 # Copy in our RPM and install it
-COPY gracc-reporting-0.4-1.noarch.rpm /tmp
-RUN yum -y install /tmp/gracc-reporting-0.4-1.noarch.rpm
+COPY gracc-reporting-0.5-1.noarch.rpm /tmp
+RUN yum -y install /tmp/gracc-reporting-0.5-1.noarch.rpm
 
 # Remove python-urllib3, install PyPi urllib3.  Eventually, hopefully this will go away
 RUN rpm -qa | grep python-urllib3 | xargs rpm -e --nodeps && pip install urllib3
