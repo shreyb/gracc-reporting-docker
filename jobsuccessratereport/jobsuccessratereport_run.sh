@@ -36,7 +36,7 @@ if [ ! -d "$LOCALLOGDIR" ]; then
 fi
 
 # Run the report in a docker container
-echo "START" `date` >> $LOGFILE
+echo "START" `date` >> $SCRIPTLOGFILE
 
 for vo in ${VOS}
 do
@@ -52,12 +52,12 @@ do
     # Error handling
 	if [ $? -ne 0 ]
 	then 
-		echo "Error running report for $vo.  Please try running the report manually" >> $LOGFILE
+		echo "Error running report for $vo.  Please try running the report manually" >> $SCRIPTLOGFILE
 	else
-		echo "Sent report for $vo" >> $LOGFILE
+		echo "Sent report for $vo" >> $SCRIPTLOGFILE
 
 	fi
 done
  
-echo "END" `date` >> $LOGFILE
+echo "END" `date` >> $SCRIPTLOGFILE
 
