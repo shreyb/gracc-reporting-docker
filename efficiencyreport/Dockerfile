@@ -1,5 +1,5 @@
 # CentOS 7 base image
-FROM shreyb/gracc-reporting:base-0.5-1
+FROM shreyb/gracc-reporting:base-0.6-1
 
 # Run this container as ifmon
 USER ifmon 
