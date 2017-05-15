@@ -4,7 +4,7 @@
 # Example:  ./jobsuccessratereport_run.sh
 
 
-VERSIONRELEASE=0.6-1
+VERSIONRELEASE=0.6-2
 TOPDIR=$HOME/fife-reports-docker
 LOCALLOGDIR=$TOPDIR/log
 SCRIPTLOGFILE=$LOCALLOGDIR/jobsuccessratereport_run.log     # Ideally should be in /var/log/gracc-reporting

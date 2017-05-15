@@ -5,4 +5,4 @@ FROM shreyb/gracc-reporting:base-0.6-1
 USER ifmon 
 
 # Executable
-ENTRYPOINT ["sh", "-c", "efficiencyreport -E $VO -s \"$START\" -e \"$END\" -F GPGrid -d"]
+ENTRYPOINT ["sh", "-c", "efficiencyreport -E $VO -s \"$START\" -e \"$END\" -F GPGrid"]

@@ -5,4 +5,4 @@ FROM shreyb/gracc-reporting:base-0.6-1
 USER ifmon
 
 # Run executable
-ENTRYPOINT ["sh", "-c", "jobsuccessratereport -E $VO -s \"$START\" -e \"$END\" -d"]
+ENTRYPOINT ["sh", "-c", "jobsuccessratereport -E $VO -s \"$START\" -e \"$END\""]
