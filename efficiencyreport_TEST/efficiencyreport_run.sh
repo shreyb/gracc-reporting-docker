@@ -53,13 +53,14 @@ fi
 # Run the report container
 echo "START" `date` >> $SCRIPTLOGFILE
 
-docker run -e VO=$vo \
-	-e START="$starttime" \
-	-e END="$endtime" \
-	-e MYGID=$MYGID \
-	-e MYUID=$MYUID \
-	-v $LOCALLOGDIR:/var/log \
-	-d shreyb/gracc-reporting:efficiency-report_$VERSIONRELEASE
+#docker run -e VO=$vo \
+#	-e START="$starttime" \
+#	-e END="$endtime" \
+#	-e MYGID=$MYGID \
+#	-e MYUID=$MYUID \
+#	-v $LOCALLOGDIR:/var/log \
+#	-d shreyb/gracc-reporting:efficiency-report_$VERSIONRELEASE
+docker-compose up
 
 # Error handling
 if [ $? -ne 0 ]
