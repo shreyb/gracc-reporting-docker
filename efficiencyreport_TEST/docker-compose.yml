@@ -1,0 +1,12 @@
+version: "${VERSIONRELEASE}"
+services:
+        efficiencyreport:
+                image: "shreyb/gracc-reporting:efficiency-report_${VERSIONRELEASE}"
+                volumes:
+                        - ${LOCALLOGDIR}:/var/log
+                environment:
+                        - START="$starttime"
+                        - END="$endtime"
+                        - MYGID=${MYGID}
+                        - MYUID=${MYUID}
+                        - VO=${vo}
