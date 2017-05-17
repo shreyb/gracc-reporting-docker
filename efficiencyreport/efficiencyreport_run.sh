@@ -6,7 +6,7 @@
 # Valid VOS="NOvA SeaQuest MINERvA MINOS gm2 Mu2e UBooNe DarkSide DUNE CDMS MARS CDF"
 
 
-VERSIONRELEASE=0.6-2
+VERSIONRELEASE=0.7-1
 TOPDIR=$HOME/fife-reports-docker
 LOCALLOGDIR=$TOPDIR/log
 SCRIPTLOGFILE=$LOCALLOGDIR/efficiencyreport_run.log     # Ideally should be in /var/log/gracc-reporting
