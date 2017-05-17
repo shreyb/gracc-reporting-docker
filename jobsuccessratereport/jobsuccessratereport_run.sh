@@ -41,7 +41,7 @@ for vo in ${VOS}
 do
 	echo $vo
 	export vo
-	docker-compose up
+	docker-compose up -d
 
     # Error handling
 	if [ $? -ne 0 ]

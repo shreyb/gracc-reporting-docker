@@ -53,7 +53,7 @@ fi
 # Run the report container
 echo "START" `date` >> $SCRIPTLOGFILE
 
-docker-compose up
+docker-compose up -d 
 
 # Error handling
 if [ $? -ne 0 ]
