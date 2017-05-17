@@ -2,4 +2,4 @@
 FROM shreyb/gracc-reporting:fife_0.7-1
 
 # Executable
-ENTRYPOINT ["sh", "-c", "efficiencyreport -E $VO -s \"$START\" -e \"$END\" -F GPGrid -d"]
+ENTRYPOINT ["sh", "-c", "efficiencyreport -E $VO -s \"$START\" -e \"$END\" -F GPGrid"]
