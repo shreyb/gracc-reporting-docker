@@ -3,12 +3,12 @@
 # Wrapper script to run the Job Success Rate report for all VOs
 # Example:  ./jobsuccessratereport_run.sh
 
-VERSIONRELEASE=0.7-1
-TOPDIR=$HOME/fife-reports-docker
-LOCALLOGDIR=$TOPDIR/log
-SCRIPTLOGFILE=$LOCALLOGDIR/jobsuccessratereport_run.log     # Ideally should be in /var/log/gracc-reporting
-MYUID=`id -u`
-MYGID=`id -g`
+export VERSIONRELEASE=0.7-1
+export TOPDIR=$HOME/fife-reports-docker
+export LOCALLOGDIR=$TOPDIR/log
+export SCRIPTLOGFILE=$LOCALLOGDIR/jobsuccessratereport_run.log     # Ideally should be in /var/log/gracc-reporting
+export MYUID=`id -u`
+export MYGID=`id -g`
 
 function usage {
     echo "Usage:    ./jobsuccessratereport_run.sh "
@@ -26,8 +26,8 @@ fi
 # Set script variables
 
 VOS="UBooNE NOvA DUNE Mu2e SeaQuest DarkSide"
-YESTERDAY=`date --date yesterday +"%F %T"`
-TODAY=`date +"%F %T"`
+export YESTERDAY=`date --date yesterday +"%F %T"`
+export TODAY=`date +"%F %T"`
 
 # Check to see if logdir exists.  Create it if it doesn't
 if [ ! -d "$LOCALLOGDIR" ]; then
@@ -40,13 +40,8 @@ echo "START" `date` >> $SCRIPTLOGFILE
 for vo in ${VOS}
 do
 	echo $vo
-	docker run -e VO=$vo \
-        	-e START="$YESTERDAY" \
-        	-e END="$TODAY" \
-		-e MYGID=$MYGID \
-		-e MYUID=$MYUID \
-		-v $LOCALLOGDIR:/var/log \
-		-d shreyb/gracc-reporting:job-success-rate-report_$VERSIONRELEASE
+	export vo
+	docker-compose up
 
     # Error handling
 	if [ $? -ne 0 ]
