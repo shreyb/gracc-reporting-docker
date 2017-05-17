@@ -51,7 +51,7 @@ for vo in ${VOS}
 do
 	echo $vo
 	export vo
-	${DOCKER_COMPOSE_EXEC} up -d
+	${DOCKER_COMPOSE_EXEC} up
 
     # Error handling
 	if [ $? -ne 0 ]
