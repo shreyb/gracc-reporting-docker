@@ -25,12 +25,18 @@ do
 		fi
 		
 		mkdir -p $DESTDIR
-		FILENAME=tmp/${DIRNAME}/${DIRNAME}_run.sh
-
-		if [[ -f "$FILENAME" ]];
-		then
-			cp $FILENAME $DESTDIR
-		fi
+		FILES="tmp/${DIRNAME}/${DIRNAME}_run.sh tmp/${DIRNAME}/docker-compose.yml"
+#
+#		WRAPPER_FILENAME=tmp/${DIRNAME}/${DIRNAME}_run.sh
+#		COMPOSE_FILENAME=tmp/${DIRNAME}/docker-compose.yml
+		
+		for FILE in ${FILES};
+		do
+			if [[ -f "$FILE" ]];
+			then
+				cp $FILE $DESTDIR
+			fi
+		done
 	fi
 done
 
