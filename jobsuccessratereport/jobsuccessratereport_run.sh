@@ -34,6 +34,16 @@ if [ ! -d "$LOCALLOGDIR" ]; then
         mkdir -p $LOCALLOGDIR
 fi
 
+# Find docker-compose
+PATH=$PATH:/usr/local/bin
+DOCKER_COMPOSE_EXEC=`which docker-compose`
+
+if [[ $? -ne 0 ]]; 
+then
+        echo "Could not find docker-compose.  Exiting"
+        exit $?
+fi
+
 # Run the report in a docker container
 echo "START" `date` >> $SCRIPTLOGFILE
 
@@ -41,7 +51,7 @@ for vo in ${VOS}
 do
 	echo $vo
 	export vo
-	docker-compose up -d
+	${DOCKER_COMPOSE_EXEC} up -d
 
     # Error handling
 	if [ $? -ne 0 ]
