@@ -1,12 +1,12 @@
 version: "3"
 services:
-        efficiencyreport:
+        jobsuccessratereport:
                 image: "shreyb/gracc-reporting:job-success-rate-report_${VERSIONRELEASE}"
                 volumes:
                         - ${LOCALLOGDIR}:/var/log
                 environment:
-                        - START=${starttime}
-                        - END=${endtime}
+                        - START=${YESTERDAY}
+                        - END=${TODAY}
                         - MYGID=${MYGID}
                         - MYUID=${MYUID}
                         - VO=${vo}
