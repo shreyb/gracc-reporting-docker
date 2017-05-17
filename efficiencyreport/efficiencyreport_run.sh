@@ -6,12 +6,12 @@
 # Valid VOS="NOvA SeaQuest MINERvA MINOS gm2 Mu2e UBooNe DarkSide DUNE CDMS MARS CDF"
 
 
-VERSIONRELEASE=0.7-1
-TOPDIR=$HOME/fife-reports-docker
-LOCALLOGDIR=$TOPDIR/log
-SCRIPTLOGFILE=$LOCALLOGDIR/efficiencyreport_run.log     # Ideally should be in /var/log/gracc-reporting
-MYUID=`id -u`
-MYGID=`id -g`
+export VERSIONRELEASE=0.7-1
+export TOPDIR=$HOME/fife-reports-docker
+export LOCALLOGDIR=$TOPDIR/log
+export SCRIPTLOGFILE=$LOCALLOGDIR/efficiencyreport_run.log
+export MYUID=`id -u`
+export MYGID=`id -g`
 
 function usage {
     echo "Usage:    ./efficiencyreport_run.sh <time period> <VO>"
@@ -22,11 +22,11 @@ function usage {
 
 function set_dates {
         case $1 in
-                "daily") starttime=`date --date='1 day ago' +"%F %T"`;;
-                "weekly") starttime=`date --date='1 week ago' +"%F %T"`;;
-                "bimonthly") starttime=`date --date='2 month ago' +"%F %T"`;;
-                "monthly") starttime=`date --date='1 month ago' +"%F %T"`;;
-                "yearly") starttime=`date --date='1 year ago' +"%F %T"`;;
+                "daily") export starttime=`date --date='1 day ago' +"%F %T"`;;
+                "weekly") export starttime=`date --date='1 week ago' +"%F %T"`;;
+                "bimonthly") export starttime=`date --date='2 month ago' +"%F %T"`;;
+                "monthly") export starttime=`date --date='1 month ago' +"%F %T"`;;
+                "yearly") export starttime=`date --date='1 year ago' +"%F %T"`;;
                 *) echo "Error: unknown period $1. Use weekly, monthly or yearly"
                          exit 1;;
         esac
@@ -40,9 +40,9 @@ then
     usage
 fi
 
-endtime=`date +"%F %T"`
+export endtime=`date +"%F %T"`
 
-vo=$2
+export vo=$2
 set_dates $1
 
 # Check to see if logdir exists.  Create it if it doesn't
@@ -53,13 +53,7 @@ fi
 # Run the report container
 echo "START" `date` >> $SCRIPTLOGFILE
 
-docker run -e VO=$vo \
-	-e START="$starttime" \
-	-e END="$endtime" \
-	-e MYGID=$MYGID \
-	-e MYUID=$MYUID \
-	-v $LOCALLOGDIR:/var/log \
-	-d shreyb/gracc-reporting:efficiency-report_$VERSIONRELEASE
+docker-compose up
 
 # Error handling
 if [ $? -ne 0 ]
