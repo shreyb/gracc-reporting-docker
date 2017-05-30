@@ -11,3 +11,7 @@ RUN useradd ifmon \
 
 # Run anything after this as ifmon 
 USER ifmon
+
+# Set up config dir for future bind-mounting
+RUN cd /home/ifmon \
+  && mkdir fife-config
