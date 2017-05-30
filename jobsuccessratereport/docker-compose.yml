@@ -4,6 +4,7 @@ services:
                 image: "shreyb/gracc-reporting:job-success-rate-report_${VERSIONRELEASE}"
                 volumes:
                         - ${LOCALLOGDIR}:/var/log
+                        - ${CONFIGDIR}:/home/ifmon/fife-config
                 environment:
                         - START=${YESTERDAY}
                         - END=${TODAY}

@@ -7,6 +7,7 @@ export VERSIONRELEASE=0.9-1
 export TOPDIR=$HOME/fife-reports-docker
 export LOCALLOGDIR=$TOPDIR/log
 export SCRIPTLOGFILE=$LOCALLOGDIR/jobsuccessratereport_run.log     # Ideally should be in /var/log/gracc-reporting
+export CONFIGDIR=${TOPDIR}/config
 export MYUID=`id -u`
 export MYGID=`id -g`
 
