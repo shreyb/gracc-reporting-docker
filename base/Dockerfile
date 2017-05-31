@@ -1,4 +1,4 @@
-# CentOS 7 base image
+# CentOS 7 base image 
 FROM centos:7
 
 # Set up all package managers and repos, make sure they're up to date

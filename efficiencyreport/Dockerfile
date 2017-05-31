@@ -2,4 +2,4 @@
 FROM shreyb/gracc-reporting:fife_0.9-2
 
 # Run executable - Note that we expect the config file to be at /home/ifmon/fife-config/fife.config
-ENTRYPOINT ["sh", "-c", "efficiencyreport -E $VO -s \"$START\" -e \"$END\" -F GPGrid -c /home/ifmon/fife-config/fife.config -d"]
+ENTRYPOINT ["sh", "-c", "efficiencyreport -E $VO -s \"$START\" -e \"$END\" -F GPGrid -c /home/ifmon/fife-config/fife.config"]
