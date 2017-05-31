@@ -5,6 +5,7 @@ services:
                 volumes:
                         - ${LOCALLOGDIR}:/var/log
                         - ${CONFIGDIR}:/home/ifmon/fife-config
+                        - /etc/localtime:/etc/localtime
                 environment:
                         - START=${starttime}
                         - END=${endtime}
