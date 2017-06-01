@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPORTDIRS="efficiency jobsuccessrate"
+REPORTDIRS="efficiency jobsuccessrate minerva"
 TOPDIR=/home/ifmon/fife-reports-docker
 
 git clone https://github.com/shreyb/GRACC-Reporting_Docker.git tmp
