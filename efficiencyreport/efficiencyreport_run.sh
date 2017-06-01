@@ -57,8 +57,9 @@ DOCKER_COMPOSE_EXEC=`which docker-compose`
 
 if [[ $? -ne 0 ]];
 then
+	ERRCODE=$?
 	echo "Could not find docker-compose.  Exiting"
-	exit $?
+	exit $ERRCODE 
 fi
 
 # Run the report container
