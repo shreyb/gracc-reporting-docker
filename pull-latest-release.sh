@@ -24,16 +24,19 @@ do
 			rm -Rf $DESTDIR
 		fi
 		
-		mkdir -p $DESTDIR
-		FILES="tmp/${DIRNAME}/*.sh tmp/${DIRNAME}/docker-compose.yml"
+		cp -r tmp/${DIRNAME} ${DESTDIR}
+#		mkdir -p $DESTDIR
+#		FILES="tmp/${DIRNAME}/*.sh tmp/${DIRNAME}/docker-compose.yml"
+#		
+#		for FILE in ${FILES};
+#		do
+#			if [[ -f "$FILE" ]];
+#			then
+#				cp $FILE $DESTDIR
+#			fi
+#		done
 		
-		for FILE in ${FILES};
-		do
-			if [[ -f "$FILE" ]];
-			then
-				cp $FILE $DESTDIR
-			fi
-		done
+
 	fi
 done
 
