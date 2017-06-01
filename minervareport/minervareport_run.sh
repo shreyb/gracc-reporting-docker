@@ -22,13 +22,27 @@ function usage {
 
 # Initialize everything
 # Check arguments
-if [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
-then
-    usage
-else if [[ $1 == "-a" ]] ;
-then
-	ALARMFLAG=1
-fi
+case $1 in 
+	-h)
+		usage
+		;;
+	--help)
+		usage
+		;;
+	-a)
+		ALARMFLAG=1
+		;;
+	*)
+		;;
+esac
+
+#if [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
+#then
+#    usage
+#else if [[ $1 == "-a" ]] ;
+#then
+#	ALARMFLAG=1
+#fi
 
 # Check to see if logdir exists.  Create it if it doesn't
 if [ ! -d "$LOCALLOGDIR" ]; then
