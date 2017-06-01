@@ -22,9 +22,12 @@ function usage {
 
 # Initialize everything
 # Check arguments
-if [[ $# -ne 0 ]] || [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
+if [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
 then
     usage
+else if [[ $1 == "-a" ]] ;
+then
+	ALARMFLAG=1
 fi
 
 # Check to see if logdir exists.  Create it if it doesn't
@@ -41,6 +44,11 @@ then
 	ERRCODE=$?
 	echo "Could not find docker-compose.  Exiting"
 	exit $ERRCODE
+fi
+
+# Set the right dir
+if [[ $ALARMFLAG -eq 1 ]]; then
+	cd ${TOPDIR}/minervareport/alarm
 fi
 
 # Run the report container

@@ -1,0 +1,13 @@
+version: "3"
+services:
+        minervareport:
+                image: "shreyb/gracc-reporting:minerva-report_${VERSIONRELEASE}"
+                volumes:
+                        - ${LOCALLOGDIR}:/var/log
+                        - ${CONFIGDIR}:/home/ifmon/gracc-config
+                        - /etc/localtime:/etc/localtime
+                environment:
+                        - MYGID=${MYGID}
+                        - MYUID=${MYUID}
+                command:
+                        - -a
