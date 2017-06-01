@@ -25,7 +25,7 @@ do
 		fi
 		
 		mkdir -p $DESTDIR
-		FILES="tmp/${DIRNAME}/${DIRNAME}_run.sh tmp/${DIRNAME}/docker-compose.yml"
+		FILES="tmp/${DIRNAME}/*.sh tmp/${DIRNAME}/docker-compose.yml"
 		
 		for FILE in ${FILES};
 		do
