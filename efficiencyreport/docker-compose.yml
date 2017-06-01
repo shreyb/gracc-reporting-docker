@@ -4,7 +4,7 @@ services:
                 image: "shreyb/gracc-reporting:efficiency-report_${VERSIONRELEASE}"
                 volumes:
                         - ${LOCALLOGDIR}:/var/log
-                        - ${CONFIGDIR}:/home/ifmon/fife-config
+                        - ${CONFIGDIR}:/home/ifmon/gracc-config
                         - /etc/localtime:/etc/localtime
                 environment:
                         - START=${starttime}
