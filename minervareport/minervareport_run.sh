@@ -13,6 +13,7 @@ export SCRIPTLOGFILE=${LOCALLOGDIR}/minervareport_run.log
 export CONFIGDIR=${TOPDIR}/config
 export MYUID=`id -u`
 export MYGID=`id -g`
+ALARMFILENAME=${TOPDIR}/minervareport/docker-compose-alarm.yml
 
 function usage {
     echo "Usage:    ./minerva_report.sh "
@@ -52,15 +53,15 @@ then
 	exit $ERRCODE
 fi
 
-# Set the right dir
-if [[ $ALARMFLAG -eq 1 ]]; then
-	cd ${TOPDIR}/minervareport/alarm
-fi
 
 # Run the report container
 echo "START" `date` >> $SCRIPTLOGFILE
 
-${DOCKER_COMPOSE_EXEC} up -d 
+if [[ $ALARMFLAG -eq 1 ]]; then
+	${DOCKER_COMPOSE_EXEC} -f $ALARMFILENAME up -d 
+else
+	${DOCKER_COMPOSE_EXEC} up -d 
+fi
 
 # Error handling
 if [ $? -ne 0 ]
