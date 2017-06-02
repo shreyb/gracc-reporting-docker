@@ -1,7 +1,7 @@
 version: "3"
 services:
         jobsuccessratereport:
-                image: "shreyb/gracc-reporting:job-success-rate-report_${VERSIONRELEASE}"
+                image: "shreyb/gracc-reporting:jobsuccessrate-report_${VERSIONRELEASE}"
                 volumes:
                         - ${LOCALLOGDIR}:/var/log
                         - ${CONFIGDIR}:/home/ifmon/gracc-config
