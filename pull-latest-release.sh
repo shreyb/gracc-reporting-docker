@@ -13,6 +13,7 @@ fi
 
 for DIR in ${REPORTDIRS};
 do
+	# Copy Report dirs
 	DIRNAME=${DIR}report 
 	echo $DIRNAME 
 	if [[ -d "tmp/${DIRNAME}" ]];
@@ -25,19 +26,19 @@ do
 		fi
 		
 		cp -r tmp/${DIRNAME} ${DESTDIR}
-#		mkdir -p $DESTDIR
-#		FILES="tmp/${DIRNAME}/*.sh tmp/${DIRNAME}/docker-compose.yml"
-#		
-#		for FILE in ${FILES};
-#		do
-#			if [[ -f "$FILE" ]];
-#			then
-#				cp $FILE $DESTDIR
-#			fi
-#		done
-		
-
 	fi
+
+	# Develop this a bit later
+#	# Clean up containers
+#	for CONTAINER in `docker ps -a | grep $DIR | awk '{print $1}'`; 
+#	do 
+#		docker rm $CONTAINER ; 
+#		echo "Removed container $CONTAINER" ; 
+#	done
+#
+#	# Clean up images - only remove the latest image!
+#	docker rmi `docker images | grep -m 1 $DIR | awk '{print $3}'`
+
 done
 
 if [[ -d tmp ]]; 
