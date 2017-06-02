@@ -23,17 +23,16 @@ function usage {
 # Initialize everything
 # Check arguments
 case $1 in 
-#	-h)
-#		usage
-#		;;
-#	--help)
-#		usage
-#		;;
+	-h)
+		usage
+		;;
+	--help)
+		usage
+		;;
 	-a)
 		ALARMFLAG=1
 		;;
 	*)
-		usage
 		;;
 esac
 
