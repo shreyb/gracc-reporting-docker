@@ -28,16 +28,20 @@ do
 		cp -r tmp/${DIRNAME} ${DESTDIR}
 	fi
 
-	# Develop this a bit later
-#	# Clean up containers
-#	for CONTAINER in `docker ps -a | grep $DIR | awk '{print $1}'`; 
-#	do 
-#		docker rm $CONTAINER ; 
-#		echo "Removed container $CONTAINER" ; 
-#	done
-#
-#	# Clean up images - only remove the latest image!
-#	docker rmi `docker images | grep -m 1 $DIR | awk '{print $3}'`
+	# Cleanup
+
+	# Grab latest image for this report
+	IMGID=`docker images | grep -m 1 $DIR | awk '{print $3}'`
+
+	# Clean up containers for that image
+	for CONTAINERID in `docker ps -qa --filter ancestor=$IMGID`; 
+	do
+		docker rm $CONTAINERID ;
+		echo "Removed container $CONTAINERID" ; 
+	done
+
+	# Clean up image
+	docker rmi $IMGID
 
 done
 
