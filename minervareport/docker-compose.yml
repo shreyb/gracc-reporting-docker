@@ -12,4 +12,5 @@ services:
                 command:
                         - -c
                         - /home/ifmon/gracc-config/minerva.config  
+                        - -d
 
