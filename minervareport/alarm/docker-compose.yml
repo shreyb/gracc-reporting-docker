@@ -10,4 +10,7 @@ services:
                         - MYGID=${MYGID}
                         - MYUID=${MYUID}
                 command:
-                        - -a
+                        - -c
+                        - /home/ifmon/gracc-config/minerva.config  
+                        - -d
+			- -a
