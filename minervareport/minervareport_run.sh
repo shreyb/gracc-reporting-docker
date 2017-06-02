@@ -36,14 +36,6 @@ case $1 in
 		;;
 esac
 
-#if [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
-#then
-#    usage
-#else if [[ $1 == "-a" ]] ;
-#then
-#	ALARMFLAG=1
-#fi
-
 # Check to see if logdir exists.  Create it if it doesn't
 if [ ! -d "$LOCALLOGDIR" ]; then
 	mkdir -p $LOCALLOGDIR
