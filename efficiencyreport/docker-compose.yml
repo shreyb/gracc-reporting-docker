@@ -7,9 +7,6 @@ services:
                         - ${CONFIGDIR}:/home/ifmon/gracc-config
                         - /etc/localtime:/etc/localtime
                 environment:
-                        - START=${starttime}
-                        - END=${endtime}
                         - MYGID=${MYGID}
                         - MYUID=${MYUID}
-                        - VO=${vo}
                 command: ["-E", "${vo}", "-s", "${starttime}", "-e", "${endtime}", "-F", "GPGrid", "-c", "/home/ifmon/gracc-config/fife.config"]
