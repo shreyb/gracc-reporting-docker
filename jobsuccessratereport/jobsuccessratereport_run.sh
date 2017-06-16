@@ -3,7 +3,7 @@
 # Wrapper script to run the Job Success Rate report for all VOs
 # Example:  ./jobsuccessratereport_run.sh
 
-export VERSIONRELEASE=0.9-3
+export VERSIONRELEASE=0.10-1
 export TOPDIR=$HOME/fife-reports-docker
 export LOCALLOGDIR=$TOPDIR/log
 export SCRIPTLOGFILE=$LOCALLOGDIR/jobsuccessratereport_run.log     # Ideally should be in /var/log/gracc-reporting
