@@ -9,4 +9,4 @@ services:
                 environment:
                         - MYGID=${MYGID}
                         - MYUID=${MYUID}
-                command: ["-c", "/home/ifmon/gracc-config/minerva.config", "-a"]   
+                command: ["-c", "/home/ifmon/gracc-config/minerva.toml", "-a"]   

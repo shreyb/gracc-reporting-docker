@@ -9,4 +9,4 @@ services:
                 environment:
                         - MYGID=${MYGID}
                         - MYUID=${MYUID}
-                command: ["-E", "${vo}", "-s", "${starttime}", "-e", "${endtime}", "-F", "GPGrid", "-c", "/home/ifmon/gracc-config/fife.config"]
+                command: ["-E", "${vo}", "-s", "${starttime}", "-e", "${endtime}", "-F", "GPGrid", "-c", "/home/ifmon/gracc-config/fife.toml"]
