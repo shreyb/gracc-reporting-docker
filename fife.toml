@@ -63,6 +63,11 @@ default_logdir = '/var/log'
         min_efficiency = 0.5
         to_emails = ['tlevshin@fnal.gov', 'sbhat@fnal.gov', 'lyon@fnal.gov']
 
+    [gm2.jobsuccessrate]
+        voname = '/fermilab/gm2/Role=Production/Capability=NULL'
+        to_emails = ['tlevshin@fnal.gov', 'sbhat@fnal.gov']
+        
+
 [mars]
     [mars.efficiency]
         min_hours = 1000
