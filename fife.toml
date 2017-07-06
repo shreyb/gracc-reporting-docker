@@ -1,0 +1,139 @@
+# General
+
+default_logdir = '/var/log'
+
+[elasticsearch]
+    hostname = 'https://gracc.opensciencegrid.org/q'
+
+# Email
+# Set the global email related values under this section
+
+[email]
+    # This is the FQDN of the mail server, which GRACC will use to send the email
+    smtphost = 'smtp.fnal.gov'
+
+    [email.from]
+        name = 'GRACC Operations'  # This is the real name from which the report appears to be emailed from
+        email = 'sbhat@fnal.gov'  # This is the email from which the reports appears to be emailed from
+
+    # Tester emails
+    [email.test]
+        names = ['Shreyas Bhat', 'Tanya Levshina']
+        emails = ['sbhat@fnal.gov', 'tlevshin@fnal.gov']
+
+
+# VO-specific parameters.
+
+[cdf]
+    [cdf.efficiency]
+        min_hours = 1000
+        min_efficiency = 0.5
+        to_emails = ['willis@fnal.gov', ]
+
+[cdms]
+    [cdms.efficiency]
+        min_hours = 1000
+        min_efficiency = 0.5
+        to_emails = ['tlevshin@fnal.gov', 'sbhat@fnal.gov']
+
+[darkside]
+    [darkside.efficiency]
+        min_hours = 500
+        min_efficiency = 0.35
+        to_emails = ['kherner@fnal.gov', ]
+
+    [darkside.jobsuccessrate]
+        voname = '/fermilab/darkside/Role=*'
+        to_emails = ['kherner@fnal.gov', ]
+        noproduction = true
+
+[dune]
+    [dune.efficiency]
+        min_hours = 1000
+        min_efficiency = 0.5
+        to_emails = ['tlevshin@fnal.gov', 'trj@fnal.gov', 'afarbin@uta.edu']
+
+    [dune.jobsuccessrate]
+        voname = '/dune/Role=Production/Capability=NULL'
+        to_emails = ['trj@fnal.gov', 'tjyang@fnal.gov', 'opos@fnal.gov', 'dune-production@fnal.gov']
+
+[gm2]
+    [gm2.efficiency]
+        min_hours = 1000
+        min_efficiency = 0.5
+        to_emails = ['tlevshin@fnal.gov', 'sbhat@fnal.gov', 'lyon@fnal.gov']
+
+[mars]
+    [mars.efficiency]
+        min_hours = 1000
+        min_efficiency = 0.5
+        to_emails = ['tlevshin@fnal.gov', 'sbhat@fnal.gov']
+
+[minerva]
+    [minerva.efficiency]
+        min_hours = 1000
+        min_efficiency = 0.5
+        to_emails = ['tlevshin@fnal.gov', 'sbhat@fnal.gov', 'perdue@fnal.gov', 'druterbo@pas.rochester.edu']
+
+
+[minos]
+    [minos.efficiency]
+        min_hours = 1000
+        min_efficiency = 0.5
+        to_emails = ['tlevshin@fnal.gov', 'sbhat@fnal.gov', 'wingmc@gmail.com']
+
+[mu2e]
+    [mu2e.efficiency]
+        min_hours = 1000
+        min_efficiency = 0.5
+        commonname = '/CN=production/mu2egpvm01.fnal.gov'
+        to_emails = ['tlevshin@fnal.gov', 'sbhat@fnal.gov', 'kutschke@fnal.gov']
+
+    [mu2e.jobsuccessrate]
+        voname = '/fermilab/mu2e/Role=Production/Capability=NULL'
+        to_emails = ['gandr@fnal.gov', 'rlc@fnal.gov', 'kutschke@fnal.gov', 'fife-group@fnal.gov', 'opos@fnal.gov']
+
+[nova]
+    [nova.efficiency]
+        min_hours=1000
+        min_efficiency=0.5
+        commonname='/CN=novaproduction/nova-offline.fnal.gov'
+        to_emails = ['tlevshin@fnal.gov', 'sbhat@fnal.gov', 'ahimmel@fnal.gov']
+
+    [nova.jobsuccessrate]
+        # num_clusters = 100
+        jobs_per_cluster = 20
+        # num_failed_sites = 20
+        # num_hosts_per_site = 20
+        # errors_per_host = 20
+        voname = '/fermilab/nova/Role=Production/Capability=NULL'
+        to_emails = ['dingpf@fnal.gov', 'fife-group@fnal.gov', 'opos@fnal.gov', 'o9h8i7a2k1x1o7y5@neutrino.slack.com']
+
+[sbnd]
+    [sbnd.efficiency]
+        min_hours = 500
+        min_efficiency = 0.65
+        to_emails = ['sbhat@fnal.gov', 'tlevshin@fnal.gov', 'petrillo@fnal.gov']
+
+[seaquest]
+    [seaquest.efficiency]
+        min_hours = 1000
+        min_efficiency = 0.5
+        to_emails = ['tlevshin@fnal.gov', 'sbhat@fnal.gov', 'chenyc@fnal.gov', 'timm@fnal.gov']
+
+    [seaquest.jobsuccessrate]
+        voname = '/fermilab/seaquest/Role=*'
+        to_emails = ['liuk.pku@gmail.com', 'bjrams@umich.edu']
+        no_production = true
+
+[uboone]
+    [uboone.efficiency]
+        min_hours = 1000
+        min_efficiency = 0.5
+        commonname ='/CN=uboonepro/uboonegpvm01.fnal.gov'
+        to_emails = ['tlevshin@fnal.gov', 'sbhat@fnal.gov', 'greenlee@fnal.gov', 'kirby@fnal.gov']
+
+    [uboone.jobsuccessrate]
+        voname = '/fermilab/uboone/Role=Production/Capability=NULL'
+        to_emails = ['kirby@fnal.gov', 'greenlee@fnal.gov', 'kterao@fnal.gov', 'jiangl@fnal.gov', 'joelam@fnal.gov', 'fife-group@fnal.gov']
+
