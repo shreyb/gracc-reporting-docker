@@ -65,7 +65,7 @@ default_logdir = '/var/log'
 
     [gm2.jobsuccessrate]
         voname = '/fermilab/gm2/Role=Production/Capability=NULL'
-        to_emails = ['tlevshin@fnal.gov', 'sbhat@fnal.gov']
+        to_emails = ['tlevshin@fnal.gov', 'sbhat@fnal.gov', 'gm2-production@listserv.fnal.gov']
         
 
 [mars]
