@@ -3,7 +3,8 @@
 REPORTDIRS="efficiency jobsuccessrate minerva"
 TOPDIR=/home/ifmon/fife-reports-docker
 
-git clone https://github.com/shreyb/GRACC-Reporting_Docker.git tmp
+# git clone https://github.com/shreyb/GRACC-Reporting_Docker.git tmp
+git clone ssh://p-fifemon@cdcvs.fnal.gov/cvs/projects/fifemon-email_reports-docker tmp
 
 if [[ $? -ne 0 ]]; 
 then
