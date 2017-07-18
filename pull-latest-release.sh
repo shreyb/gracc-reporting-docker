@@ -3,8 +3,8 @@
 REPORTDIRS="efficiency jobsuccessrate minerva"
 TOPDIR=/home/ifmon/fife-reports-docker
 
-# git clone https://github.com/shreyb/GRACC-Reporting_Docker.git tmp
-git clone ssh://p-fifemon@cdcvs.fnal.gov/cvs/projects/fifemon-email_reports-docker tmp
+# git clone https://github.com/shreyb/GRACC-Reporting_Docker.git repo
+git clone ssh://p-fifemon@cdcvs.fnal.gov/cvs/projects/fifemon-email_reports-docker repo
 
 if [[ $? -ne 0 ]]; 
 then
@@ -17,7 +17,7 @@ do
 	# Copy Report dirs
 	DIRNAME=${DIR}report 
 	echo $DIRNAME 
-	if [[ -d "tmp/${DIRNAME}" ]];
+	if [[ -d "repo/${DIRNAME}" ]];
 	then
 		DESTDIR=${TOPDIR}/${DIRNAME}
 
@@ -26,7 +26,7 @@ do
 			rm -Rf $DESTDIR
 		fi
 		
-		cp -r tmp/${DIRNAME} ${DESTDIR}
+		cp -r repo/${DIRNAME} ${DESTDIR}
 	fi
 
 	# Cleanup
@@ -46,9 +46,10 @@ do
 
 done
 
-if [[ -d tmp ]]; 
-then
-	rm -Rf tmp
-fi
+# We want to keep the repo around - it's only 4.3 MB or so
+# if [[ -d repo ]]; 
+# then
+# 	rm -Rf repo
+# fi
 
 exit 0
