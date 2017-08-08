@@ -35,6 +35,7 @@ function set_dates {
 
 # Initialize everything
 touch ${REPORTLOGFILE}
+chmod a+w ${REPORTLOGFILE}
 
 # Check arguments
 if [[ $# -ne 2 ]] || [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
