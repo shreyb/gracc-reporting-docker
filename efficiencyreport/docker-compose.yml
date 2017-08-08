@@ -6,4 +6,4 @@ services:
                         - ${LOCALLOGDIR}:/var/log
                         - ${CONFIGDIR}:/home/ifmon/gracc-config
                         - /etc/localtime:/etc/localtime
-                command: ["-E", "${vo}", "-s", "${starttime}", "-e", "${endtime}", "-F", "GPGrid", "-c", "/home/ifmon/gracc-config/fife_test.toml"]
+                command: ["-E", "${vo}", "-s", "${starttime}", "-e", "${endtime}", "-F", "GPGrid", "-c", "/home/ifmon/gracc-config/fife_test.toml", "-d", "-v"]
