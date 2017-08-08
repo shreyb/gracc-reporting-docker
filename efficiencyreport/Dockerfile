@@ -1,5 +1,5 @@
 # FIFE base image for gracc-reporting
-FROM shreyb/gracc-reporting:fife_0.11.4
+FROM fife_0.11.4_test
 
 # Run executable 
 ENTRYPOINT ["efficiencyreport"] 

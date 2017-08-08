@@ -1,12 +1,13 @@
 version: "3"
 services:
         efficiencyreport:
-                image: "shreyb/gracc-reporting:efficiency-report_${VERSIONRELEASE}"
+                # image: "shreyb/gracc-reporting:efficiency-report_${VERSIONRELEASE}"
+                image: "eff_0.11.4_test"
                 volumes:
                         - ${LOCALLOGDIR}:/var/log
                         - ${CONFIGDIR}:/home/ifmon/gracc-config
                         - /etc/localtime:/etc/localtime
-                environment:
-                        - MYGID=${MYGID}
-                        - MYUID=${MYUID}
-                command: ["-E", "${vo}", "-s", "${starttime}", "-e", "${endtime}", "-F", "GPGrid", "-c", "/home/ifmon/gracc-config/fife.toml"]
+#                environment:
+#                        - MYGID=${MYGID}
+#                        - MYUID=${MYUID}
+                command: ["-E", "${vo}", "-s", "${starttime}", "-e", "${endtime}", "-F", "GPGrid", "-c", "/home/ifmon/gracc-config/fife_test.toml", "-d", "-v"]

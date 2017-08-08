@@ -7,12 +7,13 @@
 
 
 export VERSIONRELEASE=0.11.4
-export TOPDIR=$HOME/fife-reports-docker
+# export TOPDIR=$HOME/fife-reports-docker
+export TOPDIR=$HOME/Project/GRACC-Reporting_Docker
 export LOCALLOGDIR=${TOPDIR}/log
 export SCRIPTLOGFILE=${LOCALLOGDIR}/efficiencyreport_run.log
 export CONFIGDIR=${TOPDIR}/config
-# export MYUID=`id -u`
-# export MYGID=`id -g`
+export MYUID=`id -u`
+export MYGID=`id -g`
 
 function usage {
     echo "Usage:    ./efficiencyreport_run.sh <time period> <VO>"
