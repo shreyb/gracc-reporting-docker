@@ -13,4 +13,4 @@ USER ifmon
 # Set up config dir for future bind-mounting
 RUN cd /home/ifmon \
   && mkdir gracc-config \
-  && mkdir -p log/gracc-reporting
+  && mkdir -p log

@@ -34,8 +34,6 @@ function set_dates {
 }
 
 # Initialize everything
-touch ${REPORTLOGFILE}
-chmod a+w ${REPORTLOGFILE}
 
 # Check arguments
 if [[ $# -ne 2 ]] || [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
@@ -52,6 +50,9 @@ set_dates $1
 if [ ! -d "$LOCALLOGDIR" ]; then
 	mkdir -p $LOCALLOGDIR
 fi
+
+touch ${REPORTLOGFILE}
+chmod a+w ${REPORTLOGFILE}
 
 # Find docker-compose
 PATH=$PATH:/usr/local/bin
