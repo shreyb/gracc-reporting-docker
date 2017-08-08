@@ -3,7 +3,7 @@ services:
         efficiencyreport:
                 image: "shreyb/gracc-reporting:efficiency-report_${VERSIONRELEASE}"
                 volumes:
-                        - ${LOCALLOGDIR}:/var/log
+                        - ${LOCALLOGDIR}:/home/ifmon/log
                         - ${CONFIGDIR}:/home/ifmon/gracc-config
                         - /etc/localtime:/etc/localtime
-                command: ["-E", "${vo}", "-s", "${starttime}", "-e", "${endtime}", "-F", "GPGrid", "-c", "/home/ifmon/gracc-config/fife_test.toml", "-d", "-v"]
+                command: ["-E", "${vo}", "-s", "${starttime}", "-e", "${endtime}", "-F", "GPGrid", "-c", "/home/ifmon/gracc-config/fife_test.toml", "-L", "/home/ifmon/log/gracc-reporting/efficiencyreport.log", "-d", "-v"]
