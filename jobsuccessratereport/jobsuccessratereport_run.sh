@@ -3,13 +3,12 @@
 # Wrapper script to run the Job Success Rate report for all VOs
 # Example:  ./jobsuccessratereport_run.sh
 
-export VERSIONRELEASE=0.11.4
+export VERSIONRELEASE=0.11.4b
 export TOPDIR=$HOME/fife-reports-docker
 export LOCALLOGDIR=$TOPDIR/log
-export SCRIPTLOGFILE=$LOCALLOGDIR/jobsuccessratereport_run.log     # Ideally should be in /var/log/gracc-reporting
+export SCRIPTLOGFILE=$LOCALLOGDIR/jobsuccessratereport_run.log    
+export REPORTLOGFILE=$LOCALLOGDIR/jobsuccessratereport.log     
 export CONFIGDIR=${TOPDIR}/config
-export MYUID=`id -u`
-export MYGID=`id -g`
 
 function usage {
     echo "Usage:    ./jobsuccessratereport_run.sh "
@@ -34,6 +33,9 @@ export TODAY=`date +"%F %T"`
 if [ ! -d "$LOCALLOGDIR" ]; then
         mkdir -p $LOCALLOGDIR
 fi
+
+touch ${REPORTLOGFILE}
+chmod a+w ${REPORTLOGFILE}
 
 # Find docker-compose
 PATH=$PATH:/usr/local/bin

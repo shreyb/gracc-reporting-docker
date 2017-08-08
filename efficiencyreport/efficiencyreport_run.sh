@@ -5,7 +5,6 @@
 
 # Valid VOS="NOvA SeaQuest MINERvA MINOS gm2 Mu2e UBooNe DarkSide DUNE CDMS MARS CDF"
 
-
 export VERSIONRELEASE=0.11.4b
 export TOPDIR=$HOME/fife-reports-docker
 export LOCALLOGDIR=${TOPDIR}/log

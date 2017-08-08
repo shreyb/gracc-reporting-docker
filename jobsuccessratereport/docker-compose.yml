@@ -3,10 +3,7 @@ services:
         jobsuccessratereport:
                 image: "shreyb/gracc-reporting:jobsuccessrate-report_${VERSIONRELEASE}"
                 volumes:
-                        - ${LOCALLOGDIR}:/var/log
+                        - ${LOCALLOGDIR}:/home/ifmon/log
                         - ${CONFIGDIR}:/home/ifmon/gracc-config
                         - /etc/localtime:/etc/localtime
-                environment:
-                        - MYGID=${MYGID}
-                        - MYUID=${MYUID}
-                command: ["-E", "${vo}", "-s", "${YESTERDAY}", "-e", "${TODAY}", "-c", "/home/ifmon/gracc-config/fife.toml"]
+                command: ["-E", "${vo}", "-s", "${YESTERDAY}", "-e", "${TODAY}", "-c", "/home/ifmon/gracc-config/fife.toml", "-L", "/home/ifmon/log/jobsuccessratereport.log"]
