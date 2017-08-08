@@ -1,22 +1,17 @@
 #!/bin/sh
 
-# Wrapper script to run the Efficiency report inside a Docker container
-# Example:  ./efficiencyreport_run.sh daily UBooNe
-
-# Valid VOS="NOvA SeaQuest MINERvA MINOS gm2 Mu2e UBooNe DarkSide DUNE CDMS MARS CDF"
+# Wrapper script to run the minerva report inside a Docker container
 
 
-export VERSIONRELEASE=0.11.4
+export VERSIONRELEASE=0.11.4b
 export TOPDIR=$HOME/fife-reports-docker
 export LOCALLOGDIR=${TOPDIR}/log
 export SCRIPTLOGFILE=${LOCALLOGDIR}/minervareport_run.log
 export CONFIGDIR=${TOPDIR}/config
-export MYUID=`id -u`
-export MYGID=`id -g`
 ALARMFILENAME=${TOPDIR}/minervareport/docker-compose-alarm.yml
 
 function usage {
-    echo "Usage:    ./minerva_report.sh "
+    echo "Usage:    ./minerva_report.sh [-a]"
     echo ""
     exit
 }
