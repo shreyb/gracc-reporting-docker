@@ -10,6 +10,7 @@ export VERSIONRELEASE=0.11.4b
 export TOPDIR=$HOME/fife-reports-docker
 export LOCALLOGDIR=${TOPDIR}/log
 export SCRIPTLOGFILE=${LOCALLOGDIR}/efficiencyreport_run.log
+export REPORTLOGFILE=${LOCALLOGDIR}/efficiencyreport.log
 export CONFIGDIR=${TOPDIR}/config
 
 function usage {
@@ -33,6 +34,8 @@ function set_dates {
 }
 
 # Initialize everything
+touch ${REPORTLOGFILE}
+
 # Check arguments
 if [[ $# -ne 2 ]] || [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
 then
