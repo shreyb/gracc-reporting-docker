@@ -11,6 +11,7 @@ export LOCALLOGDIR=${TOPDIR}/log
 export SCRIPTLOGFILE=${LOCALLOGDIR}/efficiencyreport_run.log
 export REPORTLOGFILE=${LOCALLOGDIR}/efficiencyreport.log
 export CONFIGDIR=${TOPDIR}/config
+export UPDATEPROMDIR=${TOPDIR}/UpdateInfoTest
 
 function usage {
     echo "Usage:    ./efficiencyreport_run.sh <time period> <VO>"
@@ -77,4 +78,8 @@ else
 	echo "Sent report for $vo" >> $SCRIPTLOGFILE
 fi
  
+# Update Prometheus metrics
+${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
+echo "Updated Prometheus Metrics" >> $SCRIPTLOGFILE
+
 echo "END" `date` >> $SCRIPTLOGFILE

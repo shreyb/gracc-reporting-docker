@@ -1,0 +1,10 @@
+version:    "3"
+services:
+## testscript
+    updateinfo:
+        image: "updateinfotest"
+#networks:
+#    default:
+#       external:
+#           name: docker_pushnet     
+#
