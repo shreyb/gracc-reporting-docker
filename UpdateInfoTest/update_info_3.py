@@ -7,12 +7,13 @@ from os import path
 
 
 PROM_HOST = 'http://fermicloud149.fnal.gov'
-STATEFILE = '/tmp/statefile.txt'
+STATEFILE = '/tmp/updateprominfo/statefile.txt'
 TIMEFORMAT = "%Y-%m-%d %H:%M:%S"
 PROM_PORT = 9090
 PUSH_PORT = 9091
 METRIC = 'num_reports_ran_today'
-dtnow = datetime.datetime.now()
+dtnow = datetime.now()
+registry = CollectorRegistry()
 
 # Meant to be run within docker container
 
@@ -20,7 +21,7 @@ dtnow = datetime.datetime.now()
 def checkfile():
     """ Get previous date from STATEFILE"""
     with open(STATEFILE, 'r') as f:
-        prevdate = datetime.datetime.strptime(f.read(), TIMEFORMAT)
+        prevdate = datetime.strptime(f.read(), TIMEFORMAT)
     print prevdate
     return prevdate
 
@@ -56,8 +57,6 @@ def pushtogateway(new):
 
 
 def main():
-    registry = CollectorRegistry()
-
     if path.exists(STATEFILE):
         prevdate = checkfile()
 
@@ -70,12 +69,12 @@ def main():
         m = 0
 
     new = str(m + 1)
-    pushtogateway()
+    pushtogateway(new)
 
     # Update STATEFILE
     with open(STATEFILE, 'w') as f:
-        dtwrite = datetime.datetime.strftime(dtnow, TIMEFORMAT)
-        f.write(dtnow)
+        dtwrite = datetime.strftime(dtnow, TIMEFORMAT)
+        f.write(dtwrite)
 
 
 if __name__ == '__main__':
