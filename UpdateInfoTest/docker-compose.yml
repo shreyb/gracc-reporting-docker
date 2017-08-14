@@ -3,6 +3,8 @@ services:
 ## testscript
     updateinfo:
         image: "updateinfotest"
+        volumes:
+            - statefile.txt:/tmp/statefile.txt
 #networks:
 #    default:
 #       external:
