@@ -59,7 +59,7 @@ def pushtogateway(new):
 
     # Push new metric to host "pushgateway" (listening on 9091)
     push_url = '{0}:{1}'.format(PROM_HOST, PUSH_PORT)
-    push_to_gateway(push_url, job='py_push_test', registry=registry)
+    push_to_gateway(push_url, job='fife_reports_tracker', registry=registry)
     return
 
 
