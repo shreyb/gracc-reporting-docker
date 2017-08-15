@@ -7,7 +7,7 @@ from os import path
 
 
 PROM_HOST = 'http://fermicloud149.fnal.gov'
-STATEFILE = '/tmp/updateprominfo/statefile.txt'
+STATEFILE = '/tmp/statefile.txt'
 TIMEFORMAT = "%Y-%m-%d %H:%M:%S"
 PROM_PORT = 9090
 PUSH_PORT = 9091
