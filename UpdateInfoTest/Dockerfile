@@ -8,15 +8,8 @@ RUN yum -y install python-pip && pip install -U pip
 RUN pip install prometheus_client && pip install requests
 RUN touch /tmp/statefile.txt
 
-
-#RUN useradd ifmon
-#USER ifmon
-#
-#RUN cd /home/ifmon && \
-#	mkdir tmp
-
 # Copy in python executable
-COPY update_info_3.py /tmp/update_info.py
+COPY update_info.py /tmp/update_info.py
 
 CMD ["python", "/tmp/update_info.py"]
 
