@@ -9,11 +9,25 @@ export LOCALLOGDIR=$TOPDIR/log
 export SCRIPTLOGFILE=$LOCALLOGDIR/jobsuccessratereport_run.log    
 export REPORTLOGFILE=$LOCALLOGDIR/jobsuccessratereport.log     
 export CONFIGDIR=${TOPDIR}/config
+export UPDATEPROMDIR=${TOPDIR}/UpdateInfoTest
 
 function usage {
     echo "Usage:    ./jobsuccessratereport_run.sh "
     echo ""
     exit
+}
+
+function dc_error_handle {
+        SHELLERROR=$1
+        DCERROR=$2
+        ERRMSG=$3
+        if [ $SHELLERROR -ne 0 ] || [ $DCERROR -ne 0 ];
+        then
+                ERRCODE=`expr $SHELLERROR + $DCERROR`
+                echo $ERRMSG >> $SCRIPTLOGFILE 
+                echo "END" `date` >> $SCRIPTLOGFILE
+                exit $ERRCODE
+        fi  
 }
 
 # Initialize everything
@@ -48,24 +62,34 @@ then
         exit $ERRCODE 
 fi
 
-# Run the report in a docker container
 echo "START" `date` >> $SCRIPTLOGFILE
 
 for vo in ${VOS}
 do
+	# Run the report in a docker container
 	echo $vo
 	export vo
 	${DOCKER_COMPOSE_EXEC} up
+	ERR=$?
+	dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
+	MSG="Error sending report for ${vo}. Please investigate"
 
-    # Error handling
-	if [ $? -ne 0 ]
-	then 
-		echo "Error running report for $vo.  Please try running the report manually" >> $SCRIPTLOGFILE
-	else
-		echo "Sent report for $vo" >> $SCRIPTLOGFILE
+	dc_error_handle $ERR $dc_EXITCODE "$MSG"
+	
+	echo "Sent report for $vo" >> $SCRIPTLOGFILE
 
-	fi
+	# Update Prometheus metrics
+	${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
+	ERR=$?
+	dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
+	MSG="Error updating Prometheus Metrics"
+
+	dc_error_handle $ERR $dc_EXITCODE "$MSG"
+
+	echo "Updated Prometheus Metrics" >> $SCRIPTLOGFILE
+
 done
  
 echo "END" `date` >> $SCRIPTLOGFILE
 
+exit 0

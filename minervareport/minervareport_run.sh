@@ -9,11 +9,25 @@ export LOCALLOGDIR=${TOPDIR}/log
 export SCRIPTLOGFILE=${LOCALLOGDIR}/minervareport_run.log
 export CONFIGDIR=${TOPDIR}/config
 ALARMFILENAME=${TOPDIR}/minervareport/docker-compose-alarm.yml
+export UPDATEPROMDIR=${TOPDIR}/UpdateInfoTest
 
 function usage {
     echo "Usage:    ./minerva_report.sh [-a]"
     echo ""
     exit
+}
+
+function dc_error_handle {
+        SHELLERROR=$1
+        DCERROR=$2
+        ERRMSG=$3
+        if [ $SHELLERROR -ne 0 ] || [ $DCERROR -ne 0 ];
+        then
+                ERRCODE=`expr $SHELLERROR + $DCERROR`
+                echo $ERRMSG >> $SCRIPTLOGFILE 
+                echo "END" `date` >> $SCRIPTLOGFILE
+                exit $ERRCODE
+        fi  
 }
 
 # Initialize everything
@@ -53,17 +67,30 @@ fi
 echo "START" `date` >> $SCRIPTLOGFILE
 
 if [[ $ALARMFLAG -eq 1 ]]; then
-	${DOCKER_COMPOSE_EXEC} -f $ALARMFILENAME up -d 
+	XARGS="-f $ALARMFILENAME"
 else
-	${DOCKER_COMPOSE_EXEC} up -d 
+	XARGS=""
 fi
 
-# Error handling
-if [ $? -ne 0 ]
-then
-	echo "Error sending minerva report. Please investigate" >> $SCRIPTLOGFILE
-else
-	echo "Sent report" >> $SCRIPTLOGFILE
-fi
- 
+${DOCKER_COMPOSE_EXEC} up $XARGS -d 
+
+ERR=$?
+dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} $XARGS ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
+MSG="Error sending minerva report. Please investigate"
+
+dc_error_handle $ERR $dc_EXITCODE "$MSG"
+
+echo "Sent report" >> $SCRIPTLOGFILE
+
+# Update Prometheus metrics
+${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
+ERR=$?
+dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
+MSG="Error updating Prometheus Metrics"
+
+dc_error_handle $ERR $dc_EXITCODE "$MSG"
+
+echo "Updated Prometheus Metrics" >> $SCRIPTLOGFILE
+
 echo "END" `date` >> $SCRIPTLOGFILE
+exit 0
