@@ -1,7 +1,8 @@
 version:    "3"
 services:
     updateinfo:
-        image: "updateinfotest"
+        # image: "updateinfotest"
+        build: ./
 #        volumes:
 #            - ./updateprominfo:/tmp/updateprominfo
 #networks:
