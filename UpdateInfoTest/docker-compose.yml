@@ -1,12 +1,4 @@
 version:    "3"
 services:
     updateinfo:
-        # image: "updateinfotest"
         build: ./
-#        volumes:
-#            - ./updateprominfo:/tmp/updateprominfo
-#networks:
-#    default:
-#       external:
-#           name: docker_pushnet     
-#
