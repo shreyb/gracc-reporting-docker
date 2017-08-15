@@ -72,7 +72,7 @@ else
 	XARGS=""
 fi
 
-${DOCKER_COMPOSE_EXEC} up $XARGS -d 
+${DOCKER_COMPOSE_EXEC} $XARGS up -d 
 
 ERR=$?
 dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} $XARGS ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
