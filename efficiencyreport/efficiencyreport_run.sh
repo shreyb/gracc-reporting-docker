@@ -83,7 +83,7 @@ echo "START" `date` >> $SCRIPTLOGFILE
 
 ${DOCKER_COMPOSE_EXEC} up 
 ERR=$?
-dc_EXITCODE=`{DOCKER_COMPOSE_EXEC} ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
+dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
 MSG="Error sending report for ${vo}. Please investigate"
 
 dc_error_handle $ERR $dc_EXITCODE "$MSG"
