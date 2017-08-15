@@ -21,7 +21,14 @@ registry = CollectorRegistry()
 def checkfile():
     """ Get previous date from STATEFILE"""
     with open(STATEFILE, 'r') as f:
-        prevdate = datetime.strptime(f.read(), TIMEFORMAT)
+        try:
+            prevdate = datetime.strptime(f.read(), TIMEFORMAT)
+        except ValueError:
+            print "Statefile is either blank or has corrupt data."
+            f.seek(0,0)
+            print "Here is the statefile"
+            print f.read()
+            return False
     print prevdate
     return prevdate
 
@@ -60,8 +67,9 @@ def main():
     if path.exists(STATEFILE):
         prevdate = checkfile()
 
-        # If it's a new day, reset metric counter to 0
-        if dtnow.day != prevdate.day:
+        # If it's a new day, or statefile couldn't be read, reset metric counter to 0
+        if not prevdate or dtnow.day != prevdate.day:
+            print "Resetting counter"
             m = 0
         else:
             m = getcurrentmetric()
