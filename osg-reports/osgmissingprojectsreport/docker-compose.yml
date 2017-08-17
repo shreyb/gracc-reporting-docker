@@ -3,9 +3,9 @@ services:
         osgmissingprojectsreport:
                 image: "shreyb/gracc-reporting:osgmissingprojects-report_${VERSIONRELEASE}"
                 volumes:
-                        - ${LOCALLOGDIR}:/home/gracc/log
-                        - ${CONFIGDIR}:/home/gracc/gracc-config
+                        - ${LOCALLOGDIR}:/tmp/log
+                        - ${CONFIGDIR}:/tmp/gracc-config
                         - /etc/localtime:/etc/localtime
                 # command: ["-s", "${starttime}", "-e", "${endtime}", "-c", "/home/gracc/gracc-config/osg.toml", "-L", "/home/gracc/log/osgflockingreport.log"]
-                command: ["-s", "${starttime}", "-e", "${endtime}", "-c", "/home/gracc/gracc-config/osg.toml", "-L", "/home/gracc/log/missingproject.log", "-r" ,"${type}", "-d"]
+                command: ["-s", "${starttime}", "-e", "${endtime}", "-c", "/tmp/gracc-config/osg.toml", "-L", "/tmp/log/missingproject.log", "-r" ,"${TYPE}", "-d"]
 

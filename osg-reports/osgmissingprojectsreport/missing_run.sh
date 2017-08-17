@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Wrapper script to run the OSG Flocking report inside a Docker container
-# Example:  ./flocking_run.sh weekly
+# Example:  ./missing_run.sh weekly
 
 
 export VERSIONRELEASE=0.11.4b
