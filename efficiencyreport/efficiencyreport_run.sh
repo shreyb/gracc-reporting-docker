@@ -11,7 +11,7 @@ export LOCALLOGDIR=${TOPDIR}/log
 export SCRIPTLOGFILE=${LOCALLOGDIR}/efficiencyreport_run.log
 export REPORTLOGFILE=${LOCALLOGDIR}/efficiencyreport.log
 export CONFIGDIR=${TOPDIR}/config
-export UPDATEPROMDIR=${TOPDIR}/UpdateInfoTest
+export UPDATEPROMDIR=${TOPDIR}/updateinfo
 
 function usage {
     echo "Usage:    ./efficiencyreport_run.sh <time period> <VO>"

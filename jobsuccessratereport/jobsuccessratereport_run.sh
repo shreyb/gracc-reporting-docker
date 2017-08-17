@@ -9,7 +9,7 @@ export LOCALLOGDIR=$TOPDIR/log
 export SCRIPTLOGFILE=$LOCALLOGDIR/jobsuccessratereport_run.log    
 export REPORTLOGFILE=$LOCALLOGDIR/jobsuccessratereport.log     
 export CONFIGDIR=${TOPDIR}/config
-export UPDATEPROMDIR=${TOPDIR}/UpdateInfoTest
+export UPDATEPROMDIR=${TOPDIR}/updateinfo
 
 function usage {
     echo "Usage:    ./jobsuccessratereport_run.sh "

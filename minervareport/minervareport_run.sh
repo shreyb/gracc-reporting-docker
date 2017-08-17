@@ -9,7 +9,7 @@ export LOCALLOGDIR=${TOPDIR}/log
 export SCRIPTLOGFILE=${LOCALLOGDIR}/minervareport_run.log
 export CONFIGDIR=${TOPDIR}/config
 ALARMFILENAME=${TOPDIR}/minervareport/docker-compose-alarm.yml
-export UPDATEPROMDIR=${TOPDIR}/UpdateInfoTest
+export UPDATEPROMDIR=${TOPDIR}/updateinfo
 
 function usage {
     echo "Usage:    ./minerva_report.sh [-a]"
