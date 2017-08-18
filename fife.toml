@@ -142,3 +142,9 @@ default_logdir = '/var/log'
         voname = '/fermilab/uboone/Role=Production/Capability=NULL'
         to_emails = ['kirby@fnal.gov', 'greenlee@fnal.gov', 'kterao@fnal.gov', 'jiangl@fnal.gov', 'joelam@fnal.gov', 'fife-group@fnal.gov']
 
+
+# Report-specific parameters
+
+[wastedhours]
+    to_emails = ['sbhat@fnal.gov',]
+    to_names = ['Shreyas Bhat', ]
