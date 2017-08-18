@@ -73,10 +73,14 @@ do
 	ERR=$?
 	dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
 	MSG="Error sending report for ${vo}. Please investigate"
+	ERRCODE=`expr $ERR + $dc_EXITCODE`
 
-	dc_error_handle $ERR $dc_EXITCODE "$MSG"
-	
-	echo "Sent report for $vo" >> $SCRIPTLOGFILE
+	if [[ $ERRCODE -ne 0 ]];
+	then
+		echo $MSG >> $SCRIPTLOGFILE
+	else
+		echo "Sent report for $vo" >> $SCRIPTLOGFILE
+	fi
 
 	# Update Prometheus metrics
 	${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
