@@ -82,11 +82,14 @@ do
 	${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
 	ERR=$?
 	dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
-	MSG="Error updating Prometheus Metrics"
+	MSG="Error updating Prometheus Metrics.  Please check the docker logs"
 
-	dc_error_handle $ERR $dc_EXITCODE "$MSG"
-
-	echo "Updated Prometheus Metrics" >> $SCRIPTLOGFILE
+	if [[ $dc_EXITCODE -ne 0 ]] || [[ $ERR -ne 0 ]];
+	then
+		echo $MSG >> $SCRIPTLOGFILE
+	else
+		echo "Updated Prometheus Metrics" >> $SCRIPTLOGFILE
+	fi
 
 done
  
