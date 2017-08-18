@@ -1,13 +1,15 @@
 #!/bin/sh
 
-# Wrapper script to run the OSG Usage Per Site report
-# Example:  ./osgpersite_run.sh monthly
+# Wrapper script to run the OSG Flocking report inside a Docker container
+# Example:  ./osgpersite_run.sh weekly
 
-# This assumes you're running the reports from a virtualenv
 
-LOGFILE=/var/log/gracc-reporting/osgpersite_run.log # Ideally should be in /var/log/gracc-reporting
-VENVDIR=gracc_venv
-TOPDIR=/home/sbhat/gracc-reporting
+export VERSIONRELEASE=0.11.4b
+export TOPDIR=$HOME/gracc-reporting
+export LOCALLOGDIR=${TOPDIR}/log
+export SCRIPTLOGFILE=${LOCALLOGDIR}/osgpersite_run.log
+export REPORTLOGFILE=${LOCALLOGDIR}/osgpersitereport.log
+export CONFIGDIR=${TOPDIR}/config
 
 function usage {
     echo "Usage:    ./osgpersite_run.sh <time period>"
@@ -18,17 +20,16 @@ function usage {
 
 function set_dates {
         case $1 in
-                "daily") starttime=`date --date='1 day ago' +"%F %T"`;;
-                "weekly") starttime=`date --date='1 week ago' +"%F %T"`;;
-                "bimonthly") starttime=`date --date='2 month ago' +"%F %T"`;;
-                "monthly") starttime=`date --date='1 month ago' +"%F %T"`;;
-                "yearly") starttime=`date --date='1 year ago' +"%F %T"`;;
+                "daily") export starttime=`date --date='1 day ago' +"%F %T"`;;
+                "weekly") export starttime=`date --date='1 week ago' +"%F %T"`;;
+                "bimonthly") export starttime=`date --date='2 month ago' +"%F %T"`;;
+                "monthly") export starttime=`date --date='1 month ago' +"%F %T"`;;
+                "yearly") export starttime=`date --date='1 year ago' +"%F %T"`;;
                 *) echo "Error: unknown period $1. Use weekly, monthly or yearly"
                          exit 1;;
         esac
         echo $starttime
 }
-
 
 # Initialize everything
 # Check arguments
@@ -38,25 +39,37 @@ then
 fi
 
 set_dates $1
-endtime=`date +"%F %T"`
 
+# Check to see if logdir exists.  Create it if it doesn't
+if [ ! -d "$LOCALLOGDIR" ]; then
+        mkdir -p $LOCALLOGDIR
+fi
 
-# Activate the virtualenv
-cd $TOPDIR
-source $VENVDIR/bin/activate
+touch ${REPORTLOGFILE}
+chmod a+w ${REPORTLOGFILE}
 
+# Find docker-compose
+PATH=$PATH:/usr/local/bin
+DOCKER_COMPOSE_EXEC=`which docker-compose`
 
-# Run the report
-echo "START" `date` >> $LOGFILE
+if [[ $? -ne 0 ]]; 
+then
+        ERRCODE=$?
+        echo "Could not find docker-compose.  Exiting"
+        exit $ERRCODE 
+fi
 
-osgpersitereport -s "$starttime"
+# Run the report container
+echo "START" `date` >> $SCRIPTLOGFILE
+
+${DOCKER_COMPOSE_EXEC} up -d
 
 # Error handling
 if [ $? -ne 0 ]
 then
-	echo "Error sending report. Please investigate" >> $LOGFILE
+	echo "Error sending report. Please investigate" >> $SCRIPTLOGFILE
 else
-	echo "Sent report" >> $LOGFILE
+	echo "Sent report" >> $SCRIPTLOGFILE
 fi
- 
-echo "END" `date` >> $LOGFILE
+
+echo "END" `date` >> $SCRIPTLOGFILE
