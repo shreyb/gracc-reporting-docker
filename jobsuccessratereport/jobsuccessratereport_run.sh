@@ -16,6 +16,19 @@ function usage {
     exit
 }
 
+function dc_error_handle {
+        SHELLERROR=$1
+        DCERROR=$2
+        ERRMSG=$3
+        if [ $SHELLERROR -ne 0 ] || [ $DCERROR -ne 0 ];
+        then
+                ERRCODE=`expr $SHELLERROR + $DCERROR`
+                echo $ERRMSG >> $SCRIPTLOGFILE
+                echo "END" `date` >> $SCRIPTLOGFILE
+                exit $ERRCODE
+        fi
+}
+
 # Initialize everything
 # Check arguments
 if [[ $# -ne 0 ]] || [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
@@ -56,15 +69,17 @@ do
 	echo $vo
 	export vo
 	${DOCKER_COMPOSE_EXEC} up
+        ERR=$?
+        dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
+        MSG="Error sending report for ${vo}. Please investigate"
+        ERRCODE=`expr $ERR + $dc_EXITCODE`
 
-    # Error handling
-	if [ $? -ne 0 ]
-	then 
-		echo "Error running report for $vo.  Please try running the report manually" >> $SCRIPTLOGFILE
-	else
-		echo "Sent report for $vo" >> $SCRIPTLOGFILE
-
-	fi
+        if [[ $ERRCODE -ne 0 ]];
+        then
+                echo $MSG >> $SCRIPTLOGFILE
+        else
+                echo "Sent report for $vo" >> $SCRIPTLOGFILE
+        fi
 done
  
 echo "END" `date` >> $SCRIPTLOGFILE
