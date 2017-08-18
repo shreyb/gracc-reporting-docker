@@ -21,12 +21,13 @@ function dc_error_handle {
         SHELLERROR=$1
         DCERROR=$2
         ERRMSG=$3
+	SMSG=$4
         if [ $SHELLERROR -ne 0 ] || [ $DCERROR -ne 0 ];
         then
                 ERRCODE=`expr $SHELLERROR + $DCERROR`
                 echo $ERRMSG >> $SCRIPTLOGFILE 
-                echo "END" `date` >> $SCRIPTLOGFILE
-                exit $ERRCODE
+	else
+		echo $SMSG >> $SCRIPTLOGFILE
         fi  
 }
 
@@ -73,28 +74,18 @@ do
 	ERR=$?
 	dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
 	MSG="Error sending report for ${vo}. Please investigate"
-	ERRCODE=`expr $ERR + $dc_EXITCODE`
-
-	if [[ $ERRCODE -ne 0 ]];
-	then
-		echo $MSG >> $SCRIPTLOGFILE
-	else
-		echo "Sent report for $vo" >> $SCRIPTLOGFILE
-	fi
+	SMSG="Sent report for $vo"
+	
+	dc_error_handle $ERR $dc_EXITCODE "$MSG" "$SMSG"
 
 	# Update Prometheus metrics
 	${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
 	ERR=$?
 	dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
 	MSG="Error updating Prometheus Metrics.  Please check the docker logs"
-	ERRCODE=`expr $ERR + $dc_EXITCODE`
+	SMSG="Updated Prometheus Metrics" 
 
-	if [[ $ERRCODE -ne 0 ]];
-	then
-		echo $MSG >> $SCRIPTLOGFILE
-	else
-		echo "Updated Prometheus Metrics" >> $SCRIPTLOGFILE
-	fi
+	dc_error_handle $ERR $dc_EXITCODE "$MSG" "$SMSG"
 
 done
  
