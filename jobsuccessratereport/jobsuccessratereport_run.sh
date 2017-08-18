@@ -83,8 +83,9 @@ do
 	ERR=$?
 	dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
 	MSG="Error updating Prometheus Metrics.  Please check the docker logs"
+	ERRCODE=`expr $ERR + $dc_EXITCODE`
 
-	if [[ $dc_EXITCODE -ne 0 ]] || [[ $ERR -ne 0 ]];
+	if [[ $ERRCODE -ne 0 ]];
 	then
 		echo $MSG >> $SCRIPTLOGFILE
 	else
