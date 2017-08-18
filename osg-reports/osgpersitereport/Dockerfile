@@ -3,4 +3,3 @@ FROM shreyb/gracc-reporting:osg_0.11.4b
 
 # Executable
 ENTRYPOINT ["osgpersitereport"]
-# ENTRYPOINT ["sh", "-c", "osgpersitereport -s \"$starttime\" -d"] 
