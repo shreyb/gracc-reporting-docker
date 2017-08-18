@@ -68,9 +68,9 @@ ${DOCKER_COMPOSE_EXEC} up -d
 # Error handling
 if [ $? -ne 0 ]
 then
-	echo "Error sending report. Please investigate" >> $LOGFILE
+	echo "Error sending report. Please investigate" >> $SCRIPTLOGFILE
 else
-	echo "Sent report" >> $LOGFILE
+	echo "Sent report" >> $SCRIPTLOGFILE
 fi
 
 echo "END" `date` >> $SCRIPTLOGFILE
