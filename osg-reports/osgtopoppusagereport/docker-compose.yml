@@ -1,0 +1,10 @@
+version: "3"
+services:
+        osgtopoppusagereport:
+                image: "shreyb/gracc-reporting:osgtopoppusage-report_${VERSIONRELEASE}"
+                volumes:
+                        - ${LOCALLOGDIR}:/tmp/log
+                        - ${CONFIGDIR}:/tmp/gracc-config
+                        - /etc/localtime:/etc/localtime
+                command: ["-s", "${starttime}", "-e", "${endtime}", "-c", "/tmp/gracc-config/osg.toml", "-L", "/tmp/log/osgtopoppusagereport.log", "-N", "${number}", "-d"]
+                # ENTRYPOINT ["sh", "-c", "osgtopoppusagereport -s \"$starttime\" -e \"$endtime\" -N \"$number\" -d"]
