@@ -68,24 +68,21 @@ for TYPE in ${REPORT_TYPES}
 do
     echo $TYPE
     export $TYPE
+
     ${DOCKER_COMPOSE_EXEC} up -d
+    ERR=$?
+    dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
+    MSG="Error sending report. Please investigate"
+    ERRCODE=`expr $ERR + $dc_EXITCODE`
 
     # Error handling
-    if [ $? -ne 0 ] 
+    if [ $ERRCODE -ne 0 ] 
     then
-        echo "Error sending $TYPE report. Please investigate" >> $LOGFILE
+        echo "Error sending $TYPE report. Please investigate" >> $SCRIPTLOGFILE
     else
-        echo "Sent $TYPE report" >> $LOGFILE
+        echo "Sent $TYPE report" >> $SCRIPTLOGFILE
     fi  
 done
 
-
-# Error handling
-if [ $? -ne 0 ]
-then
-	echo "Error sending report. Please investigate" >> $LOGFILE
-else
-	echo "Sent report" >> $LOGFILE
-fi
-
 echo "END" `date` >> $SCRIPTLOGFILE
+exit 0

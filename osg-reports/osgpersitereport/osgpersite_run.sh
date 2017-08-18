@@ -31,6 +31,19 @@ function set_dates {
         echo $starttime
 }
 
+function dc_error_handle {
+        SHELLERROR=$1
+        DCERROR=$2
+        ERRMSG=$3
+        if [ $SHELLERROR -ne 0 ] || [ $DCERROR -ne 0 ];
+        then
+                ERRCODE=`expr $SHELLERROR + $DCERROR`
+                echo $ERRMSG >> $SCRIPTLOGFILE
+                echo "END" `date` >> $SCRIPTLOGFILE
+                exit $ERRCODE
+        fi
+}
+
 # Initialize everything
 # Check arguments
 if [[ $# -ne 1 ]] || [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
@@ -63,13 +76,12 @@ fi
 echo "START" `date` >> $SCRIPTLOGFILE
 
 ${DOCKER_COMPOSE_EXEC} up -d
+ERR=$?
+dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
+MSG="Error sending report. Please investigate"
 
-# Error handling
-if [ $? -ne 0 ]
-then
-	echo "Error sending report. Please investigate" >> $SCRIPTLOGFILE
-else
-	echo "Sent report" >> $SCRIPTLOGFILE
-fi
+dc_error_handle $ERR $dc_EXITCODE "$MSG"
 
+echo "Sent report" >> $SCRIPTLOGFILE
 echo "END" `date` >> $SCRIPTLOGFILE
+exit 0
