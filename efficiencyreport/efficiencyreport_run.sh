@@ -16,7 +16,7 @@ function usage {
     echo "Usage:    ./efficiencyreport_run.sh [-p] <time period> <VO>"
     echo ""
     echo "Time periods are: daily, weekly, bimonthly, monthly, yearly"
-    echo "-p flag logs report runs to prometheus pushgateway"
+    echo "-p flag (optional) logs report runs to prometheus pushgateway"
     exit
 }
 
@@ -59,6 +59,7 @@ function prom_push {
 
 	echo "Updated Prometheus Metrics" >> $SCRIPTLOGFILE
 }
+
 
 # Initialize everything
 
@@ -117,15 +118,6 @@ if [[ $PUSHPROMMETRICS == 1 ]] ;
 then
 	prom_push
 fi
-
-
-## Update Prometheus metrics
-#${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
-#ERR=$?
-#dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
-#MSG="Error updating Prometheus Metrics"
-#
-#dc_error_handle $ERR $dc_EXITCODE "$MSG"
 
 echo "END" `date` >> $SCRIPTLOGFILE
 
