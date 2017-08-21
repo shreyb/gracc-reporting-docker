@@ -58,14 +58,20 @@ case $1 in
 		;;
 	-a)
 		ALARMFLAG=1
-		;;
-	-p)
-		PUSHPROMMETRICS=1
+		shift
 		;;
 	*)
-		PUSHPROMMETRICS=0
 		;;
 esac
+
+# Check for prometheus flag
+if [[ $1 == "-p" ]] ;
+then
+        PUSHPROMMETRICS=1
+        echo "Pushing metrics"
+else
+        PUSHPROMMETRICS=0
+fi
 
 # Check to see if logdir exists.  Create it if it doesn't
 if [ ! -d "$LOCALLOGDIR" ]; then

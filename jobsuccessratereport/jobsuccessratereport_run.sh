@@ -51,6 +51,16 @@ then
     usage
 fi
 
+# Check for prometheus flag
+if [[ $1 == "-p" ]] ;
+then
+        PUSHPROMMETRICS=1
+        echo "Pushing metrics"
+        shift 
+else
+        PUSHPROMMETRICS=0
+fi
+
 # Set script variables
 
 VOS="UBooNE NOvA DUNE Mu2e SeaQuest DarkSide gm2"
