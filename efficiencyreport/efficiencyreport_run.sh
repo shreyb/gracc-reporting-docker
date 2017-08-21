@@ -63,7 +63,7 @@ function prom_push {
 # Initialize everything
 
 # Check arguments
-if [[ $# -ne 2 ]] || [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
+if  [[ $# -lt 2 || $# -gt 3 ]] || [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
 then
     usage
 fi
@@ -72,6 +72,7 @@ fi
 if [[ $1 == "-p" ]] ;
 then
 	PUSHPROMMETRICS=1
+	echo "Pushing metrics"
 	shift 
 else
 	PUSHPROMMETRICS=0
@@ -111,6 +112,12 @@ MSG="Error sending report for ${vo}. Please investigate"
 dc_error_handle $ERR $dc_EXITCODE "$MSG"
 
 echo "Sent report for $vo" >> $SCRIPTLOGFILE
+
+if [[ $PUSHPROMMETRICS == 1 ]] ;
+then
+	prom_push
+fi
+
 
 ## Update Prometheus metrics
 #${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
