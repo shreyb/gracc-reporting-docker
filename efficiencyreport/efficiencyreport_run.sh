@@ -11,12 +11,12 @@ export LOCALLOGDIR=${TOPDIR}/log
 export SCRIPTLOGFILE=${LOCALLOGDIR}/efficiencyreport_run.log
 export REPORTLOGFILE=${LOCALLOGDIR}/efficiencyreport.log
 export CONFIGDIR=${TOPDIR}/config
-export UPDATEPROMDIR=${TOPDIR}/updateinfo
 
 function usage {
-    echo "Usage:    ./efficiencyreport_run.sh <time period> <VO>"
+    echo "Usage:    ./efficiencyreport_run.sh [-p] <time period> <VO>"
     echo ""
     echo "Time periods are: daily, weekly, bimonthly, monthly, yearly"
+    echo "-p flag logs report runs to prometheus pushgateway"
     exit
 }
 
@@ -46,6 +46,20 @@ function dc_error_handle {
 	fi
 }
 
+function prom_push {
+	# Update Prometheus metrics
+	export UPDATEPROMDIR=${TOPDIR}/updateinfo
+
+	${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
+	ERR=$?
+	dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
+	MSG="Error updating Prometheus Metrics"
+
+	dc_error_handle $ERR $dc_EXITCODE "$MSG"
+
+	echo "Updated Prometheus Metrics" >> $SCRIPTLOGFILE
+}
+
 # Initialize everything
 
 # Check arguments
@@ -54,10 +68,18 @@ then
     usage
 fi
 
-export endtime=`date +"%F %T"`
+# Check for prometheus flag
+if [[ $1 == "-p" ]] ;
+then
+	PUSHPROMMETRICS=1
+	shift 
+else
+	PUSHPROMMETRICS=0
+fi
 
 export vo=$2
 set_dates $1
+export endtime=`date +"%F %T"`
 
 # Check to see if logdir exists.  Create it if it doesn't
 if [ ! -d "$LOCALLOGDIR" ]; then
@@ -90,15 +112,14 @@ dc_error_handle $ERR $dc_EXITCODE "$MSG"
 
 echo "Sent report for $vo" >> $SCRIPTLOGFILE
 
-# Update Prometheus metrics
-${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
-ERR=$?
-dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
-MSG="Error updating Prometheus Metrics"
+## Update Prometheus metrics
+#${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
+#ERR=$?
+#dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
+#MSG="Error updating Prometheus Metrics"
+#
+#dc_error_handle $ERR $dc_EXITCODE "$MSG"
 
-dc_error_handle $ERR $dc_EXITCODE "$MSG"
-
-echo "Updated Prometheus Metrics" >> $SCRIPTLOGFILE
 echo "END" `date` >> $SCRIPTLOGFILE
 
 exit 0
