@@ -9,10 +9,10 @@ export LOCALLOGDIR=$TOPDIR/log
 export SCRIPTLOGFILE=$LOCALLOGDIR/jobsuccessratereport_run.log    
 export REPORTLOGFILE=$LOCALLOGDIR/jobsuccessratereport.log     
 export CONFIGDIR=${TOPDIR}/config
-export UPDATEPROMDIR=${TOPDIR}/updateinfo
 
 function usage {
-    echo "Usage:    ./jobsuccessratereport_run.sh "
+    echo "Usage:    ./jobsuccessratereport_run.sh [-p]"
+    echo "-p flag (optional) logs report runs to prometheus pushgateway"
     echo ""
     exit
 }
@@ -31,9 +31,22 @@ function dc_error_handle {
         fi  
 }
 
+function prom_push {
+        # Update Prometheus metrics
+        export UPDATEPROMDIR=${TOPDIR}/updateinfo
+
+        ${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
+        ERR=$?
+        dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
+        MSG="Error updating Prometheus Metrics"
+	SMSG="Updated Prometheus Metrics"
+
+        dc_error_handle $ERR $dc_EXITCODE "$MSG" "$SMSG"
+}
+
 # Initialize everything
 # Check arguments
-if [[ $# -ne 0 ]] || [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
+if [[ $# -gt 1 ]] || [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
 then
     usage
 fi
@@ -78,14 +91,10 @@ do
 	
 	dc_error_handle $ERR $dc_EXITCODE "$MSG" "$SMSG"
 
-	# Update Prometheus metrics
-	${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
-	ERR=$?
-	dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
-	MSG="Error updating Prometheus Metrics.  Please check the docker logs"
-	SMSG="Updated Prometheus Metrics" 
-
-	dc_error_handle $ERR $dc_EXITCODE "$MSG" "$SMSG"
+	if [[ $PUSHPROMMETRICS == 1 ]] ;
+	then
+		prom_push
+	fi
 done
  
 echo "END" `date` >> $SCRIPTLOGFILE

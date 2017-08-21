@@ -12,7 +12,9 @@ ALARMFILENAME=${TOPDIR}/minervareport/docker-compose-alarm.yml
 export UPDATEPROMDIR=${TOPDIR}/updateinfo
 
 function usage {
-    echo "Usage:    ./minerva_report.sh [-a]"
+    echo "Usage:    ./minerva_report.sh [-a] [-p]"
+    echo "-a is alarm flag (sends shorter report)"
+    echo "-p flag (optional) logs report runs to prometheus pushgateway"
     echo ""
     exit
 }
@@ -30,6 +32,21 @@ function dc_error_handle {
         fi  
 }
 
+function prom_push {
+        # Update Prometheus metrics
+        export UPDATEPROMDIR=${TOPDIR}/updateinfo
+
+        ${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
+        ERR=$?
+        dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
+        MSG="Error updating Prometheus Metrics"
+
+        dc_error_handle $ERR $dc_EXITCODE "$MSG"
+
+        echo "Updated Prometheus Metrics" >> $SCRIPTLOGFILE
+}
+
+
 # Initialize everything
 # Check arguments
 case $1 in 
@@ -42,7 +59,11 @@ case $1 in
 	-a)
 		ALARMFLAG=1
 		;;
+	-p)
+		PUSHPROMMETRICS=1
+		;;
 	*)
+		PUSHPROMMETRICS=0
 		;;
 esac
 
@@ -81,15 +102,10 @@ dc_error_handle $ERR $dc_EXITCODE "$MSG"
 
 echo "Sent report" >> $SCRIPTLOGFILE
 
-# Update Prometheus metrics
-${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
-ERR=$?
-dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
-MSG="Error updating Prometheus Metrics"
-
-dc_error_handle $ERR $dc_EXITCODE "$MSG"
-
-echo "Updated Prometheus Metrics" >> $SCRIPTLOGFILE
+if [[ $PUSHPROMMETRICS == 1 ]] ;
+then
+        prom_push
+fi
 
 echo "END" `date` >> $SCRIPTLOGFILE
 exit 0
