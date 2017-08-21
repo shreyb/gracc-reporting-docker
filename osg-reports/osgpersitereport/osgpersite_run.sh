@@ -12,9 +12,10 @@ export REPORTLOGFILE=${LOCALLOGDIR}/osgpersitereport.log
 export CONFIGDIR=${TOPDIR}/config
 
 function usage {
-    echo "Usage:    ./osgpersite_run.sh <time period>"
+    echo "Usage:    ./osgpersite_run.sh [-p] <time period>"
     echo ""
     echo "Time periods are: daily, weekly, bimonthly, monthly, yearly"
+    echo "-p flag (optional) logs report runs to prometheus pushgateway"
     exit
 }
 
@@ -44,11 +45,35 @@ function dc_error_handle {
         fi
 }
 
+function prom_push {
+        # Update Prometheus metrics
+        export UPDATEPROMDIR=${TOPDIR}/updateinfo
+
+        ${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
+        ERR=$?
+        dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
+        MSG="Error updating Prometheus Metrics"
+
+        dc_error_handle $ERR $dc_EXITCODE "$MSG"
+
+        echo "Updated Prometheus Metrics" >> $SCRIPTLOGFILE
+}
+
 # Initialize everything
 # Check arguments
-if [[ $# -ne 1 ]] || [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
+if [[ $# -lt 1 || $# -gt 2 ]] || [[ $1 == "-h" ]] || [[ $1 == "--help" ]] ;
 then
     usage
+fi
+
+# Check for prometheus flag
+if [[ $1 == "-p" ]] ;
+then
+        PUSHPROMMETRICS=1
+        echo "Pushing metrics"
+        shift
+else
+        PUSHPROMMETRICS=0
 fi
 
 set_dates $1
@@ -75,7 +100,7 @@ fi
 # Run the report container
 echo "START" `date` >> $SCRIPTLOGFILE
 
-${DOCKER_COMPOSE_EXEC} up -d
+${DOCKER_COMPOSE_EXEC} up
 ERR=$?
 dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
 MSG="Error sending report. Please investigate"
@@ -83,5 +108,11 @@ MSG="Error sending report. Please investigate"
 dc_error_handle $ERR $dc_EXITCODE "$MSG"
 
 echo "Sent report" >> $SCRIPTLOGFILE
+
+if [[ $PUSHPROMMETRICS == 1 ]] ;
+then
+        prom_push
+fi
+
 echo "END" `date` >> $SCRIPTLOGFILE
 exit 0

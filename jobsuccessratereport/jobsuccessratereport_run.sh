@@ -35,7 +35,7 @@ function prom_push {
         # Update Prometheus metrics
         export UPDATEPROMDIR=${TOPDIR}/updateinfo
 
-        ${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up -d
+        ${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml up 
         ERR=$?
         dc_EXITCODE=`${DOCKER_COMPOSE_EXEC} -f ${UPDATEPROMDIR}/docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode}}'`
         MSG="Error updating Prometheus Metrics"
