@@ -1,0 +1,10 @@
+version: "3"
+services:
+        osgreport:
+                image: "shreyb/gracc-reporting:osg-report_${VERSIONRELEASE}"
+                volumes:
+                        - ${LOCALLOGDIR}:/tmp/log
+                        - ${CONFIGDIR}:/tmp/gracc-config
+                        - /etc/localtime:/etc/localtime
+                command: ["-s", "${starttime}", "-e", "${endtime}", "-c", "/tmp/gracc-config/osg.toml", "-L", "/tmp/log/osgreporter.log", "-r" ,"${TYPE}", "-d"]
+

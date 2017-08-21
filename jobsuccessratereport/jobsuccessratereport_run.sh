@@ -86,7 +86,6 @@ do
 	SMSG="Updated Prometheus Metrics" 
 
 	dc_error_handle $ERR $dc_EXITCODE "$MSG" "$SMSG"
-
 done
  
 echo "END" `date` >> $SCRIPTLOGFILE

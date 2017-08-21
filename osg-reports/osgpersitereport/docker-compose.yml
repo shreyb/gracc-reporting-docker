@@ -1,0 +1,10 @@
+version: "3"
+services:
+        osgpersitereport:
+                image: "shreyb/gracc-reporting:osgpersite-report_${VERSIONRELEASE}"
+                volumes:
+                        - ${LOCALLOGDIR}:/tmp/log
+                        - ${CONFIGDIR}:/tmp/gracc-config
+                        - /etc/localtime:/etc/localtime
+                command: ["-s", "${starttime}", "-c", "/tmp/gracc-config/osg.toml", "-L", "/tmp/log/osgpersitereport.log", "-d"]
+
