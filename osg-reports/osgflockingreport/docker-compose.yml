@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
         osgflockingreport:
                 image: "shreyb/gracc-reporting:osgflocking-report_${VERSIONRELEASE}"
@@ -6,4 +6,7 @@ services:
                         - ${LOCALLOGDIR}:/tmp/log
                         - ${CONFIGDIR}:/tmp/gracc-config
                         - /etc/localtime:/etc/localtime
+                network_mode: "host"
                 command: ["-s", "${starttime}", "-e", "${endtime}", "-c", "/tmp/gracc-config/osg.toml", "-L", "/tmp/log/osgflockingreport.log", "-d"]
+                         
+                
