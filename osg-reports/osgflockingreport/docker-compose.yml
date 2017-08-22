@@ -7,4 +7,4 @@ services:
                         - ${CONFIGDIR}:/tmp/gracc-config
                         - /etc/localtime:/etc/localtime
                 network_mode: "host"
-                command: ["-s", "${starttime}", "-e", "${endtime}", "-c", "/tmp/gracc-config/osg.toml", "-L", "/tmp/log/osgflockingreport.log", "-d"]
+                command: ["-s", "${starttime}", "-e", "${endtime}", "-c", "/tmp/gracc-config/osg.toml", "-L", "/tmp/log/osgflockingreport.log"]
