@@ -51,11 +51,11 @@ default_logdir = '/var/log'
     [dune.efficiency]
         min_hours = 1000
         min_efficiency = 0.5
-        to_emails = ['tlevshin@fnal.gov', 'trj@fnal.gov', 'afarbin@uta.edu']
+        to_emails = ['tlevshin@fnal.gov', 'trj@fnal.gov', 'afarbin@uta.edu', 'schellma@fnal.gov']
 
     [dune.jobsuccessrate]
         voname = '/dune/Role=Production/Capability=NULL'
-        to_emails = ['trj@fnal.gov', 'tjyang@fnal.gov', 'opos@fnal.gov', 'dune-production@fnal.gov']
+        to_emails = ['trj@fnal.gov', 'tjyang@fnal.gov', 'opos@fnal.gov', 'dune-production@fnal.gov', 'schellma@fnal.gov']
 
 [gm2]
     [gm2.efficiency]
