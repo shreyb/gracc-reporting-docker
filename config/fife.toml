@@ -19,15 +19,15 @@ configured_vos = ['cdf', 'cdms', 'darkside', 'dune', 'gm2', 'mars', 'minerva', '
 
     # Tester emails
     [email.test]
-        names = ['Shreyas Bhat']
-        emails = ['sbhat@fnal.gov']
-        # names = ['Shreyas Bhat', 'Tanya Levshina']
-        # emails = ['sbhat@fnal.gov', 'tlevshin@fnal.gov']
+        names = ['Shreyas Bhat', 'Tanya Levshina']
+        emails = ['sbhat@fnal.gov', 'tlevshin@fnal.gov']
 
 # Report-specific parameters
 # Note that in TOML, True and False must be all lowercase.  Seems weird, but there you go.
 
 [efficiency]
+  index_pattern='gracc.osg.raw-%Y.%m'
+
 	[efficiency.cdf]
 		min_hours = 1000
 		min_efficiency = 0.5
@@ -99,6 +99,8 @@ configured_vos = ['cdf', 'cdms', 'darkside', 'dune', 'gm2', 'mars', 'minerva', '
 
 
 [jobsuccessrate]
+  index_pattern='gracc.osg.raw-%Y.%m'
+
 	[jobsuccessrate.darkside]
 		noproduction = true
 		voname = '/fermilab/darkside/Role=*'
@@ -136,38 +138,39 @@ configured_vos = ['cdf', 'cdms', 'darkside', 'dune', 'gm2', 'mars', 'minerva', '
 
 
 [topwastedhoursvo]
+  index_pattern='gracc.osg.summary'
 
-	  [topwastedhoursvo.darkside]
+ [topwastedhoursvo.darkside]
 		perc_cutoff = 0.5
 		hours_cutoff = 500
 		to_emails = ['kherner@fnal.gov',]
 
-	  [topwastedhoursvo.dune]
+  [topwastedhoursvo.dune]
 		perc_cutoff = 0.5
 		hours_cutoff = 500
 		to_emails = ['trj@fnal.gov', 'tjyang@fnal.gov', 'opos@fnal.gov', 'dune-production@fnal.gov', 'schellma@fnal.gov']
     
-	  [topwastedhoursvo.gm2]
+  [topwastedhoursvo.gm2]
 		perc_cutoff = 0.5
 		hours_cutoff = 500
 		to_emails = ['tlevshin@fnal.gov', 'sbhat@fnal.gov', 'gm2-production@listserv.fnal.gov']
 
-	  [topwastedhoursvo.mu2e]
+  [topwastedhoursvo.mu2e]
 		perc_cutoff = 0.5
 		hours_cutoff = 500
 		to_emails = ['gandr@fnal.gov', 'rlc@fnal.gov', 'kutschke@fnal.gov',  'opos@fnal.gov']
 
-	  [topwastedhoursvo.nova]
+  [topwastedhoursvo.nova]
 		perc_cutoff = 0.5
 		hours_cutoff = 500
 		to_emails = ['dingpf@fnal.gov', 'opos@fnal.gov', 'o9h8i7a2k1x1o7y5@neutrino.slack.com']
 
-	  [topwastedhoursvo.seaquest]
+  [topwastedhoursvo.seaquest]
 		perc_cutoff = 0.5
 		hours_cutoff = 500
 		to_emails = ['liuk.pku@gmail.com', 'bjrams@umich.edu']
 
-	  [topwastedhoursvo.uboone]
+  [topwastedhoursvo.uboone]
 		perc_cutoff = 0.5
 		hours_cutoff = 500
 		to_emails = ['kirby@fnal.gov', 'greenlee@fnal.gov', 'kterao@fnal.gov', 'jiangl@fnal.gov', 'joelam@fnal.gov']
