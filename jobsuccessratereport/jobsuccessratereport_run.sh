@@ -3,7 +3,7 @@
 # Wrapper script to run the Job Success Rate report for all VOs
 # Example:  ./jobsuccessratereport_run.sh
 
-export VERSIONRELEASE=0.11.4b
+export VERSIONRELEASE=1.0
 export TOPDIR=$HOME/fife-reports-docker
 export LOCALLOGDIR=$TOPDIR/log
 export SCRIPTLOGFILE=$LOCALLOGDIR/jobsuccessratereport_run.log    

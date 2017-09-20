@@ -1,5 +1,5 @@
 #gracc-reporting base image
-FROM shreyb/gracc-reporting:base_0.11.4
+FROM shreyb/gracc-reporting:base_1.0
 
 # ifmon user setup 
 RUN useradd ifmon 

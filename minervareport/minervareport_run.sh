@@ -3,7 +3,7 @@
 # Wrapper script to run the minerva report inside a Docker container
 
 
-export VERSIONRELEASE=0.11.4b
+export VERSIONRELEASE=1.0
 export TOPDIR=$HOME/fife-reports-docker
 export LOCALLOGDIR=${TOPDIR}/log
 export SCRIPTLOGFILE=${LOCALLOGDIR}/minervareport_run.log
