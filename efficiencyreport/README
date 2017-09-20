@@ -1,0 +1,17 @@
+To build the image:
+
+	sudo docker build . -t gracc-reporting_efficiency-report_0.4-1
+
+To run the image with env variables:
+
+	docker run -e VO="uboone" -e START="2016/07/04" -e END="2016/07/05" -v /Users/sbhat/GRACC-Reporting_Docker/efficiencyreport/var/log:/var/log -d gracc-reporting_efficiency-report_0.4-1_test 
+
+	docker run -e VO="uboone" -e START="2016/07/04" -e END="2016/07/05" -d gracc-reporting_efficiency-report_0.4-1
+OR	
+	docker run -e VO="uboone" -e START="2016/07/04" -e END="2016/07/05" -d shreyb/gracc-reporting:efficiency-report_0.4-1
+
+Quick Explanation:
+
+-e passes environmental variables into the docker container
+-v bind mounts a directory on the host system to a specified path in the container.  In this case, I'm using the log dir, so that our container writes to the gracc reporting logs
+-d is detached mode (so the container runs in the background)

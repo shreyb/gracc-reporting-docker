@@ -1,0 +1,9 @@
+version: "3"
+services:
+        jobsuccessratereport:
+                image: "shreyb/gracc-reporting:jobsuccessrate-report_${VERSIONRELEASE}"
+                volumes:
+                        - ${LOCALLOGDIR}:/home/ifmon/log
+                        - ${CONFIGDIR}:/home/ifmon/gracc-config
+                        - /etc/localtime:/etc/localtime
+                command: ["-E", "${vo}", "-s", "${YESTERDAY}", "-e", "${TODAY}", "-c", "/home/ifmon/gracc-config/fife.toml", "-L", "/home/ifmon/log/jobsuccessratereport.log"]
