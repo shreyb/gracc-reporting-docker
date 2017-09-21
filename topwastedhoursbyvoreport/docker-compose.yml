@@ -1,0 +1,10 @@
+version: "3"
+services:
+        efficiencyreport:
+                image: "shreyb/gracc-reporting:topwastedhoursbyvo-report_${VERSIONRELEASE}"
+                volumes:
+                        - ${LOCALLOGDIR}:/home/ifmon/log
+                        - ${CONFIGDIR}:/home/ifmon/gracc-config
+                        - /etc/localtime:/etc/localtime
+                command: ["-s", "${starttime}", "-e", "${endtime}" "-E", "${vo}", "-F", "GPGrid", "-c", "/home/ifmon/gracc-config/fife.toml", "-L", "/home/ifmon/log/topwastedhoursbyvo.log", "-d", "-n", "-v" ]
+
