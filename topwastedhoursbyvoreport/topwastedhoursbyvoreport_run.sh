@@ -1,17 +1,17 @@
 #!/bin/sh
 
 # Wrapper script to run the Job Success Rate report for all VOs
-# Example:  ./jobsuccessratereport_run.sh
+# Example:  ./topwastedhoursbyvo_run.sh
 
 export VERSIONRELEASE=1.0
 export TOPDIR=$HOME/fife-reports-docker
 export LOCALLOGDIR=$TOPDIR/log
-export SCRIPTLOGFILE=$LOCALLOGDIR/jobsuccessratereport_run.log    
-export REPORTLOGFILE=$LOCALLOGDIR/jobsuccessratereport.log     
+export SCRIPTLOGFILE=$LOCALLOGDIR/topwastedhoursbyvo_run.log    
+export REPORTLOGFILE=$LOCALLOGDIR/topwastedhoursbyvo.log     
 export CONFIGDIR=${TOPDIR}/config
 
 function usage {
-    echo "Usage:    ./jobsuccessratereport_run.sh [-p]"
+    echo "Usage:   ./topwastedhoursbyvo_run.sh [-p]"
     echo "-p flag (optional) logs report runs to prometheus pushgateway"
     echo ""
     exit
